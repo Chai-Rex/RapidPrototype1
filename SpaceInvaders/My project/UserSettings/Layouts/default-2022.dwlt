@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 500, y: 100}
   m_MaxSize: {x: 40480, y: 16192}
   vertical: 0
-  controlID: 171
+  controlID: 227
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 135
+  controlID: 91
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 172
+  controlID: 171
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1072,9 +1072,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 9.899458, y: 4.4355335, z: -0.17713572}
+    m_Target: {x: 1.1515831, y: 3.6439009, z: 6.009088}
     speed: 2
-    m_Value: {x: 9.899458, y: 4.4355335, z: -0.17713572}
+    m_Value: {x: 1.1515831, y: 3.6439009, z: 6.009088}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1124,9 +1124,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 23.189793
+    m_Target: 11.546512
     speed: 2
-    m_Value: 23.189793
+    m_Value: 11.546512
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1746,7 +1746,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 29150
+  m_LastSelectedObjectID: -249698
 --- !u!114 &24
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1826,7 +1826,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/prefabs
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1834,17 +1834,17 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/prefabs
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\chair\Desktop\Rapid Prototyping\Space Invaders\v3\My
+  m_LastProjectPath: C:\Users\chair\Documents\GitHub\RapidPrototype1\SpaceInvaders\My
     project
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4e750000
-    m_LastClickedID: 30030
-    m_ExpandedIDs: 000000004e75000000ca9a3b
+    m_SelectedIDs: fc060000
+    m_LastClickedID: 1788
+    m_ExpandedIDs: 00000000fc0500001007000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1872,7 +1872,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000004e750000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1899,7 +1899,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300004a2a01000c750000a6a80000007000004c760000f07c0000ea7c000020850000d0c100004c830000c85d01005c61010068610100b04801000c46010072610100b08300009a850000d0840100fa820000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1981,7 +1981,7 @@ MonoBehaviour:
   m_StartGridSize: 16
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\chair\Desktop\Rapid Prototyping\Space Invaders\v3\My
+  m_LastProjectPath: C:\Users\chair\Documents\GitHub\RapidPrototype1\SpaceInvaders\My
     project
   m_LockTracker:
     m_IsLocked: 0
@@ -1989,7 +1989,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 7e740000
     m_LastClickedID: 29822
-    m_ExpandedIDs: 000000004e750000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2014,10 +2014,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 52}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff000000004e750000
+    m_ExpandedIDs: ffffffff00000000fc05000054060000fc06000010070000180700003c0700004c07000090070000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2112,7 +2112,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 10fbffff
+      m_ExpandedIDs: f625fcfffc2afcff9e30fcff0c2ffeff9031feff12f40000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2128,7 +2128,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 8}
+        m_ClientGUIView: {fileID: 15}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -2189,7 +2189,7 @@ MonoBehaviour:
   m_StartGridSize: 16
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\chair\Desktop\Rapid Prototyping\Space Invaders\v3\My
+  m_LastProjectPath: C:\Users\chair\Documents\GitHub\RapidPrototype1\SpaceInvaders\My
     project
   m_LockTracker:
     m_IsLocked: 1
@@ -2197,7 +2197,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 06a90000
     m_LastClickedID: 43270
-    m_ExpandedIDs: 000000004e750000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2225,7 +2225,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff000000004e750000
+    m_ExpandedIDs: fffffffffc050000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

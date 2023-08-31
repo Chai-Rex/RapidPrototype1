@@ -15,14 +15,14 @@ public class GravityManager : MonoBehaviour {
 
     private void Awake() {
         if (Instance != null) {
-            Debug.LogError("There is more than one Player instance");
+            Debug.LogError("There is more than one GravityManager instance");
         }
         Instance = this;
     }
 
     void FixedUpdate() {
         G = g;//in case g is changed in editor
-        if (isSimulatingLive)//PathHandler changes this
+        if (isSimulatingLive)
             SimulateGravities();
     }
     public static void SimulateGravities() {
@@ -37,7 +37,6 @@ public class GravityManager : MonoBehaviour {
     public static void AddGravityForce(Rigidbody2D attractor, Rigidbody2D target) {
         float massProduct = attractor.mass * target.mass * G;
 
-        //You could also do
         //float distance = Vector3.Distance(attractor.position,target.position.
         Vector3 difference = attractor.position - target.position;
         float distance = difference.magnitude; // r = Mathf.Sqrt((x*x)+(y*y))

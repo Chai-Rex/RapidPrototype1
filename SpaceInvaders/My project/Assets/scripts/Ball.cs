@@ -24,6 +24,7 @@ public class Ball : MonoBehaviour {
 
     private void Start() {
         GravityManager.attractees.Add(rigidbody2d);
+        BallIndicatorUI.Ball = this.gameObject;
         rigidbody2d.AddForce(new Vector2(
             Player.Instance.transform.position.x - Dome.Instance.transform.position.x, 
             Player.Instance.transform.position.y - Dome.Instance.transform.position.y
@@ -61,7 +62,7 @@ public class Ball : MonoBehaviour {
 
     private void OnDestroy() {
         GravityManager.attractees.Remove(rigidbody2d);
-
+        BallIndicatorUI.Ball = null;
         Destroy(this.gameObject);
     }
 

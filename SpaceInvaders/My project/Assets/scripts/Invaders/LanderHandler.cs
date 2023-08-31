@@ -32,7 +32,8 @@ public class LanderHandler : MonoBehaviour {
     [SerializeField] private float moveIntoFrameAmount = 10f;
 
     [Header("Prefab")]
-    [SerializeField] private GameObject LanderInvader1;
+    [SerializeField] private GameObject BasicLanderInvader;
+    [SerializeField] private GameObject SpecialLanderInvader;
     [SerializeField] private Projectile missile;
     [SerializeField] private Transform projectileHolder;
 
@@ -81,12 +82,23 @@ public class LanderHandler : MonoBehaviour {
             RadiusParents[col] = Instantiate(new GameObject("RadiusParentLander"), new Vector3(0, 0, 0), Quaternion.identity, this.transform);
 
             for (int row = 0; row < rows; row++) {
-                InvaderGrid[row, col] = Instantiate(LanderInvader1, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                if (row == rows / 2) {
+                    InvaderGrid[row, col] = Instantiate(SpecialLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                    // action
+                    SpecialLanderInvader currentInvader = InvaderGrid[row, col].GetComponent<SpecialLanderInvader>();
+                    if (!currentInvader) { Debug.LogError("missing SpecialLanderInvader script"); }
+                    currentInvader.killed += InvaderKilled;
+                } else {
+                    InvaderGrid[row, col] = Instantiate(BasicLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                    // action
+                    LanderInvader currentInvader = InvaderGrid[row, col].GetComponent<LanderInvader>();
+                    if (!currentInvader) { Debug.LogError("missing LanderInvader script"); }
+                    currentInvader.killed += InvaderKilled;
+                }
+
+
                 InvaderGrid[row, col].transform.localPosition += new Vector3(0, viewportRadius + row * heightPadding, 0);
-                // action
-                LanderInvader currentInvader = InvaderGrid[row, col].GetComponent<LanderInvader>();
-                if (!currentInvader) { Debug.LogError("missing invader script"); }
-                currentInvader.killed += InvaderKilled;
+
             }
 
             RadiusParents[col].transform.Rotate(0, 0, degreesBetweenInvaders * col + 45 + 45 - (columns * degreesBetweenInvaders) / 2 );

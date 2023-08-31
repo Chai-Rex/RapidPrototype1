@@ -80,6 +80,7 @@ MonoBehaviour:
   missileRate: 2
   moveIntoFrameSpeed: 3
   moveIntoFrameAmount: 10
-  LanderInvader1: {fileID: 1497044804663318687, guid: 5b1527cbdb39e784b8218bd50955ab92, type: 3}
+  BasicLanderInvader: {fileID: 1497044804663318687, guid: 5b1527cbdb39e784b8218bd50955ab92, type: 3}
+  SpecialLanderInvader: {fileID: 6322239225494129482, guid: 5f76cf6cbadd3c0499a818cec1405fc1, type: 3}
   missile: {fileID: 1657243590781112486, guid: dd08da0ca37e08c4b94bc136ead743cb, type: 3}
   projectileHolder: {fileID: 0}

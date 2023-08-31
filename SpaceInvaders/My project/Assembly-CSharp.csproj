@@ -70,7 +70,9 @@
     <Compile Include="Assets\scripts\Managers\InvaderManager.cs" />
     <Compile Include="Assets\scripts\Managers\ScoreManager.cs" />
     <Compile Include="Assets\Settings\PlayerInput.cs" />
+    <Compile Include="Assets\scripts\Invaders\SpecialLanderInvader.cs" />
     <Compile Include="Assets\scripts\Managers\MusicManager.cs" />
+    <Compile Include="Assets\scripts\UI\BallIndicatorUI.cs" />
     <Compile Include="Assets\scripts\SciptableObjects\AudioClipRefSO.cs" />
     <Compile Include="Assets\scripts\Invaders\LanderHandler.cs" />
     <Compile Include="Assets\scripts\RadiusParent.cs" />
