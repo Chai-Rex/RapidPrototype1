@@ -4,8 +4,9 @@ using System;
 public class Projectile : MonoBehaviour {
 
     [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float g = 1f;
-
+    [SerializeField] private Color color;
     private void Start() {
         rigidbody2d.AddForce(new Vector2(
             Dome.Instance.transform.position.x - this.transform.position.x,
@@ -33,6 +34,7 @@ public class Projectile : MonoBehaviour {
                 this.transform.position.y - Player.Instance.transform.position.y
                 ).normalized * g);
 
+            spriteRenderer.color = color;
             this.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
             return;
         }
