@@ -20,7 +20,6 @@ public class GameStateManager : MonoBehaviour {
     private State state;
 
     [SerializeField] private float waitingToStartTimer = 0.5f;
-    [SerializeField] private float CountdownToStartTimer = 3f;
     private bool isGamePaused = false;
 
     private void Awake() {
@@ -49,12 +48,7 @@ public class GameStateManager : MonoBehaviour {
 
                 break;
             case State.CountdownToStart:
-                CountdownToStartTimer -= Time.deltaTime;
-                if (CountdownToStartTimer < 0f) {
-                    state = State.GamePlaying;
-                    OnStateChanged?.Invoke(this, EventArgs.Empty);
 
-                }
                 break;
             case State.GamePlaying:
 
@@ -77,6 +71,10 @@ public class GameStateManager : MonoBehaviour {
 
     public bool IsGameCountdownToStart() {
         return state == State.CountdownToStart;
+    }
+    public void EndCountdownToStart() {
+        state = State.GamePlaying;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public bool IsGamePlaying() {

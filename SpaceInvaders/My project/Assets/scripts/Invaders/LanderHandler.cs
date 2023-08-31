@@ -1,103 +1,109 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Rendering.CameraUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class LanderHandler : MonoBehaviour {
-
+    [Header("Grid Settings")]
     [SerializeField] private int rows = 5;
     [SerializeField] private int columns = 11;
-    [SerializeField] private float spacingBetweenInvaders = 2.0f;
-    [SerializeField] private float edgePadding = 1f;
+    [SerializeField] private float degreesBetweenInvaders = 5f;
+    [SerializeField] private float heightPadding = 2f;
 
-    [SerializeField] private GameObject LanderInvader1;
-
+    [Header("Movement Settings")]
+    [SerializeField] private float startingDegree = 0f;
+    [SerializeField] private float startingDirection = 1f;
     [SerializeField] private float dropAmount = 1f;
+    [SerializeField] private float rotationSpeed = 1f;
+    [SerializeField] private float incrementSpeedBy = 0.25f;
     [SerializeField] private AnimationCurve moveSpeed;
 
+    [Header("Projectile Settings")]
+    [SerializeField] private float missileRate = 1f;
+
+    [Header("Spawn Movement")]
+    [SerializeField] private float moveIntoFrameSpeed = 1f;
+    [SerializeField] private float moveIntoFrameAmount = 10f;
+
+    [Header("Prefab")]
+    [SerializeField] private GameObject LanderInvader1;
+    [SerializeField] private Projectile missile;
+    [SerializeField] private Transform projectileHolder;
+
+
+    private float currentMoveIntoFrameAmount = 0f;
     private bool isMovingDown = false;
-    private float targetHeight;
-    private Vector3 direction = Vector2.right;
-
-    private Vector3 leftEdge;
-    private Vector3 rightEdge;
-    private Vector3 topEdge;
-
-    private float timeElapsed = 0;
-    private float lerpDuration = 3;
-    private float startValue = 0;
-    private float endValue = 10;
-    private float valueToLerp;
-
+    private float viewportRadius = 0f;
+    private float increaseBaseSpeedPercent = 1;
+    // counting 
     public int amountKilled { get; private set; }
     private int totalAmountInvaders => rows * columns;
+    private int amoutAlive => totalAmountInvaders - amountKilled;
+
     private float percentKilled => (float)amountKilled / (float)totalAmountInvaders;
 
-    private float IncreaseBaseSpeedPercent = 0.5f;
+
 
     private GameObject[,] InvaderGrid;
+    private GameObject[] RadiusParents;
+
 
     private void Awake() {
         InvaderGrid = new GameObject[rows, columns];
+        RadiusParents = new GameObject[columns];
     }
 
     private void Start() {
+        viewportRadius = HypotenuseLength(Camera.main.orthographicSize, Camera.main.orthographicSize);
+        increaseBaseSpeedPercent -= incrementSpeedBy;
         StartLanders();
+        //LanderInvader.onLanderKilled += Invader_OnLanderKilled;
+        InvokeRepeating(nameof(FireMissle), missileRate, missileRate);
     }
 
     private void StartLanders() {
-
+        currentMoveIntoFrameAmount = moveIntoFrameAmount;
         amountKilled = 0;
-        IncreaseBaseSpeedPercent += 0.5f;
-        timeElapsed = 0;
-
-        // find center
-        float width = spacingBetweenInvaders * (float)(columns - 1);
-        float height = spacingBetweenInvaders * (float)(rows - 1);
-        Vector2 centering = new Vector2(-width / 2, -height / 2);
+        increaseBaseSpeedPercent += incrementSpeedBy;
+        this.transform.eulerAngles = new Vector3(0, 0, 0);
 
 
         // populate grid with invaders
-        for (int row = 0; row < rows; row++) {
-            // row center
-            Vector3 rowPosition = new Vector3(centering.x, centering.y + (row * spacingBetweenInvaders), 0.0f);
-            for (int col = 0; col < this.columns; col++) {
 
-                InvaderGrid[row, col] = Instantiate(LanderInvader1, this.transform.position, Quaternion.identity, this.transform);
-                // column center
-                Vector3 position = rowPosition;
-                position.x += col * spacingBetweenInvaders;
-                InvaderGrid[row, col].transform.localPosition = position;
+        for (int col = 0; col < this.columns; col++) {
+
+            RadiusParents[col] = Instantiate(new GameObject("RadiusParentLander"), new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+
+            for (int row = 0; row < rows; row++) {
+                InvaderGrid[row, col] = Instantiate(LanderInvader1, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                InvaderGrid[row, col].transform.localPosition += new Vector3(0, viewportRadius + row * heightPadding, 0);
                 // action
                 LanderInvader currentInvader = InvaderGrid[row, col].GetComponent<LanderInvader>();
                 if (!currentInvader) { Debug.LogError("missing invader script"); }
                 currentInvader.killed += InvaderKilled;
-
             }
+
+            RadiusParents[col].transform.Rotate(0, 0, degreesBetweenInvaders * col + 45 + 45 - (columns * degreesBetweenInvaders) / 2 );
         }
 
-        // set world bounds
-        leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
-        rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
-        topEdge = Camera.main.ViewportToWorldPoint(Vector3.up);
-
-        // move above viewport
-        startValue = topEdge.y + (height / 2) + edgePadding;
-        endValue = topEdge.y - (height / 2) - edgePadding;
-        this.transform.position = new Vector3(0, startValue, 0);
-        targetHeight = endValue;
+        this.transform.eulerAngles = new Vector3(0, 0, startingDegree - 90);
     }
 
     private void DestroyLanders() {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < this.columns; col++) {
+
+        for (int col = 0; col < this.columns; col++) {
+            Destroy(RadiusParents[col]);
+            for (int row = 0; row < rows; row++) {
                 Destroy(InvaderGrid[row, col]);
             }
         }
+
     }
 
     private void Update() {
@@ -105,29 +111,49 @@ public class LanderHandler : MonoBehaviour {
         if (GameStateManager.Instance.IsGameWaitingToStart()) { return; }
 
         // move below viewport
-        if (timeElapsed < lerpDuration) {
-            valueToLerp = Mathf.Lerp(startValue, endValue, timeElapsed / lerpDuration);
-            this.transform.position = new Vector3(0, valueToLerp, 0);
-            timeElapsed += Time.deltaTime;
+
+        if (currentMoveIntoFrameAmount >= 0) {
+            float moveAmountThisFrame = moveIntoFrameSpeed * Time.deltaTime;
+            currentMoveIntoFrameAmount -= moveAmountThisFrame;
+            foreach (GameObject invader in InvaderGrid) {
+                invader.transform.localPosition -= new Vector3(0, moveAmountThisFrame, 0);
+            }
+
+            if (currentMoveIntoFrameAmount < 0) {
+                foreach (GameObject invader in InvaderGrid) {
+                    invader.transform.localPosition -= new Vector3(0, currentMoveIntoFrameAmount, 0);
+                }
+            }
             return;
         }
 
-        // wait to start
-        if (GameStateManager.Instance.IsGameCountdownToStart()) { return; }
+        if (GameStateManager.Instance.IsGameCountdownToStart()) { GameStateManager.Instance.EndCountdownToStart(); }
 
-        // move down
+        //move down
         if (isMovingDown) {
-            if (this.transform.position.y <= targetHeight) {
-                isMovingDown = false;
-                this.transform.position = new Vector3(this.transform.position.x, targetHeight, 0);
-            } else {
-                this.transform.position += Vector3.down * moveSpeed.Evaluate(percentKilled) * IncreaseBaseSpeedPercent * Time.deltaTime;
+
+
+            if (dropAmount >= 0 ) {
+                float moveAmountThisFrame = moveSpeed.Evaluate(percentKilled) * increaseBaseSpeedPercent * Time.deltaTime;
+                dropAmount -= moveAmountThisFrame;
+                foreach (GameObject invader in InvaderGrid) {
+                    invader.transform.localPosition -= new Vector3(0, moveAmountThisFrame, 0);
+                }
                 return;
             }
+
+            if (dropAmount < 0) {
+                foreach (GameObject invader in InvaderGrid) {
+                    invader.transform.localPosition -= new Vector3(0, dropAmount, 0);
+                }
+            }
+
+            isMovingDown = false;
+            dropAmount = 1f;
         }
 
 
-        this.transform.position += direction * moveSpeed.Evaluate(percentKilled) * IncreaseBaseSpeedPercent * Time.deltaTime;
+        //this.transform.position += direction * moveSpeed.Evaluate(percentKilled) * IncreaseBaseSpeedPercent * Time.deltaTime;
 
         // move left or right
         foreach (GameObject invader in InvaderGrid) {
@@ -136,21 +162,40 @@ public class LanderHandler : MonoBehaviour {
                 continue;
             }
 
-            if (direction == Vector3.right && invader.transform.position.x > rightEdge.x - edgePadding) {
+            if (startingDirection < 0 && invader.transform.parent.transform.localEulerAngles.z < 50) {
                 // hit right most limits
                 // flip direction and move down
-                direction *= -1f;
+                startingDirection *= -1f;
                 isMovingDown = true;
-                targetHeight -= dropAmount;
                 //Debug.Log("RIGHT edge hit");
-            } else if (direction == Vector3.left && invader.transform.position.x < leftEdge.x + edgePadding) {
+                return;
+            } else if (startingDirection > 0 && invader.transform.parent.transform.localEulerAngles.z > 130) {
                 // hit left most limits
                 // flip direction and move down
-                direction *= -1f;
+                startingDirection *= -1f;
                 isMovingDown = true;
-                targetHeight -= dropAmount;
                 //Debug.Log("LEFT edge hit");
+                return;
+            }
+        }
+        //Debug.Log(invader.transform.parent.transform.localEulerAngles.z);
+        //Debug.Log(startingDirection * moveSpeed.Evaluate(percentKilled) * increaseBaseSpeedPercent * rotationSpeed * Time.deltaTime);
+        float rotationAmountThisFrame = moveSpeed.Evaluate(percentKilled) * increaseBaseSpeedPercent * rotationSpeed * Time.deltaTime;
+        foreach (GameObject parent in RadiusParents) {
+            parent.transform.Rotate(0, 0, startingDirection * rotationAmountThisFrame);
+        }
 
+    }
+
+    private void FireMissle() {
+        foreach (GameObject invader in InvaderGrid) {
+            if (!invader.gameObject.activeInHierarchy) {
+                continue;
+            }
+
+            if (Random.value < (1.0f / (float)amoutAlive)) {
+                Instantiate(missile, invader.transform.position, Quaternion.identity, projectileHolder);
+                break;
             }
         }
     }
@@ -163,6 +208,10 @@ public class LanderHandler : MonoBehaviour {
             DestroyLanders();
             StartLanders();
         }
+    }
+
+    float HypotenuseLength(float sideALength, float sideBLength) {
+        return Mathf.Sqrt(sideALength * sideALength + sideBLength * sideBLength);
     }
 
 }
