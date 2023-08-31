@@ -5,8 +5,10 @@ public class Projectile : MonoBehaviour {
 
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private float g = 1f;
     [SerializeField] private Color color;
+    [SerializeField] private Material material;
     private void Start() {
         rigidbody2d.AddForce(new Vector2(
             Dome.Instance.transform.position.x - this.transform.position.x,
@@ -35,6 +37,7 @@ public class Projectile : MonoBehaviour {
                 ).normalized * g);
 
             spriteRenderer.color = color;
+            trailRenderer.material = material;
             this.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
             return;
         }
