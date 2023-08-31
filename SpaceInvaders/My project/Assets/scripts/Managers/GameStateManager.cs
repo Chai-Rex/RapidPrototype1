@@ -63,7 +63,10 @@ public class GameStateManager : MonoBehaviour {
     public void EndGame() {
         state = State.GameOver;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        EndUI.Instance.UpdateFinalScore();
+        EndUI.Instance.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public bool IsGameWaitingToStart() {
         return state == State.WaitingToStart;

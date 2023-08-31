@@ -40,7 +40,6 @@ public class LanderHandler : MonoBehaviour {
 
     private float currentMoveIntoFrameAmount = 0f;
     private bool isMovingDown = false;
-    private float viewportRadius = 0f;
     private float increaseBaseSpeedPercent = 1;
     // counting 
     public int amountKilled { get; private set; }
@@ -48,8 +47,6 @@ public class LanderHandler : MonoBehaviour {
     private int amoutAlive => totalAmountInvaders - amountKilled;
 
     private float percentKilled => (float)amountKilled / (float)totalAmountInvaders;
-
-
 
     private GameObject[,] InvaderGrid;
     private GameObject[] RadiusParents;
@@ -61,7 +58,6 @@ public class LanderHandler : MonoBehaviour {
     }
 
     private void Start() {
-        viewportRadius = HypotenuseLength(Camera.main.orthographicSize, Camera.main.orthographicSize);
         increaseBaseSpeedPercent -= incrementSpeedBy;
         StartLanders();
         //LanderInvader.onLanderKilled += Invader_OnLanderKilled;
@@ -97,7 +93,7 @@ public class LanderHandler : MonoBehaviour {
                 }
 
 
-                InvaderGrid[row, col].transform.localPosition += new Vector3(0, viewportRadius + row * heightPadding, 0);
+                InvaderGrid[row, col].transform.localPosition += new Vector3(0, CameraManager.Instance.viewportRadius + row * heightPadding, 0);
 
             }
 
@@ -220,10 +216,6 @@ public class LanderHandler : MonoBehaviour {
             DestroyLanders();
             StartLanders();
         }
-    }
-
-    float HypotenuseLength(float sideALength, float sideBLength) {
-        return Mathf.Sqrt(sideALength * sideALength + sideBLength * sideBLength);
     }
 
 }
