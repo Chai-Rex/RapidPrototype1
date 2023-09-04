@@ -40,6 +40,11 @@ public class Dome : MonoBehaviour {
         }
     }
 
+    public void RaiseHealthBy(int healing) {
+        remainingHealth += healing;
+        OnLivesChange?.Invoke(this, EventArgs.Empty);
+    }
+
     public int GetLives() {
         return remainingHealth;
     }

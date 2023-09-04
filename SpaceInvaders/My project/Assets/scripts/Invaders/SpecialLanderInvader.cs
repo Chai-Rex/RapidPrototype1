@@ -25,12 +25,13 @@ public class SpecialLanderInvader : MonoBehaviour {
                 shieldCollider2D.radius = 0.4f;
                 shieldCollider2D.isTrigger = true;
                 isShieldActive = false;
-                return;
+                //return;
             }
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Planet") ||
             collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
+            Debug.Log("test");
             Dome.Instance.LowerHeathBy(50);
             DestroySelf();
         }

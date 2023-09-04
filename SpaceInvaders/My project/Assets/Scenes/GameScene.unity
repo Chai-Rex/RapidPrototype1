@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2278117601272406476, guid: 3ca663b82a2ffa84b93dbdd54ddacb00, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8053714195509897816, guid: 3ca663b82a2ffa84b93dbdd54ddacb00, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1495,6 +1495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081f39bd9f0b1ff4fa8239b7df045867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Drop: {fileID: 5635701975518414384, guid: 919f5d855b5b08946b579841db7288e9, type: 3}
+  DropParent: {fileID: 570541314}
 --- !u!1 &436006628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,6 +1819,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553328649}
   m_CullTransparentMesh: 1
+--- !u!1 &570541313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 570541314}
+  m_Layer: 0
+  m_Name: DropParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &570541314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570541313}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &575111289
 GameObject:
   m_ObjectHideFlags: 0
@@ -3353,8 +3386,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1058501939}
-  - component: {fileID: 1058501938}
   - component: {fileID: 1058501937}
+  - component: {fileID: 1058501938}
   - component: {fileID: 1058501940}
   m_Layer: 6
   m_Name: Player
@@ -3375,7 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c7de4b0dacd7d42983874856caa41a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  G: 1800
+  G: 2000
   maxG: 2200
   minG: 1800
   incrementG: 100
@@ -8436,6 +8469,7 @@ SceneRoots:
   - {fileID: 134180274}
   - {fileID: 1337307858}
   - {fileID: 1316957721}
+  - {fileID: 570541314}
   - {fileID: 121828990}
   - {fileID: 1595437835}
   - {fileID: 1476481107}
