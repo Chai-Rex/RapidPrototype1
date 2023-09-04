@@ -14,6 +14,8 @@ public class GameInput : MonoBehaviour {
         // keyboard
         Move_Left,
         Move_Right,
+        Increase,
+        Decrease,
         Action,
         Pause,
     }
@@ -24,6 +26,9 @@ public class GameInput : MonoBehaviour {
     public event EventHandler OnMoveLeftCanceled;
     public event EventHandler OnMoveRightStarted;
     public event EventHandler OnMoveRightCanceled;
+
+    public event EventHandler OnIncrease;
+    public event EventHandler OnDecrease;
 
     public event EventHandler OnAction;
     public event EventHandler OnPauseAction;
@@ -44,6 +49,9 @@ public class GameInput : MonoBehaviour {
         playerInput.Player.MoveLeft.canceled += MoveLeft_canceled;
         playerInput.Player.MoveRight.started += MoveRight_started;
         playerInput.Player.MoveRight.canceled += MoveRight_canceled;
+
+        playerInput.Player.Increase.performed += Increase_performed;
+        playerInput.Player.Decrease.performed += Decrease_performed;
 
         playerInput.Player.Action.performed += Action_performed;
         playerInput.Player.Pause.performed += Pause_performed;
@@ -75,6 +83,13 @@ public class GameInput : MonoBehaviour {
         OnMoveRightCanceled?.Invoke(this, EventArgs.Empty);
     }
 
+    private void Increase_performed(InputAction.CallbackContext obj) {
+        OnIncrease?.Invoke(this, EventArgs.Empty);
+    }
+    private void Decrease_performed(InputAction.CallbackContext obj) {
+        OnDecrease?.Invoke(this, EventArgs.Empty);
+    }
+
     private void Pause_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
         OnPauseAction?.Invoke(this, EventArgs.Empty);
     }
@@ -93,6 +108,12 @@ public class GameInput : MonoBehaviour {
 
             case Binding.Move_Right:
                 return playerInput.Player.MoveRight.bindings[0].ToDisplayString();
+
+            case Binding.Increase:
+                return playerInput.Player.Increase.bindings[1].ToDisplayString();
+
+            case Binding.Decrease:
+                return playerInput.Player.Decrease.bindings[1].ToDisplayString();
 
             case Binding.Action:
                 return playerInput.Player.Action.bindings[0].ToDisplayString();
@@ -124,6 +145,16 @@ public class GameInput : MonoBehaviour {
             case Binding.Move_Right:
                 inputAction = playerInput.Player.MoveRight;
                 bindingIndex = 0;
+
+                break;
+            case Binding.Increase:
+                inputAction = playerInput.Player.Increase;
+                bindingIndex = 1;
+
+                break;
+            case Binding.Decrease:
+                inputAction = playerInput.Player.Decrease;
+                bindingIndex = 1;
 
                 break;
             case Binding.Action:

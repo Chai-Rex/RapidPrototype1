@@ -62,6 +62,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Increase"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d9b7018-610d-405c-8de8-e14063ad61b8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Decrease"",
+                    ""type"": ""Button"",
+                    ""id"": ""485b9185-1a88-40a6-b7dc-041fda0f8158"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +192,50 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c199267-9aaf-477a-8e0f-ae4740d23ba4"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Increase"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""464cec94-1485-4454-a51b-8ec6fbaf00fc"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Increase"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ac5f606-f7a8-4df7-824c-1e8d7243cf8c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Decrease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3aaa2a0-22fe-42e5-8112-6fe1c44e53ee"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Decrease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +248,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_MoveRight = m_Player.FindAction("MoveRight", throwIfNotFound: true);
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Increase = m_Player.FindAction("Increase", throwIfNotFound: true);
+        m_Player_Decrease = m_Player.FindAction("Decrease", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +315,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveRight;
     private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Increase;
+    private readonly InputAction m_Player_Decrease;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -259,6 +325,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @MoveRight => m_Wrapper.m_Player_MoveRight;
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Increase => m_Wrapper.m_Player_Increase;
+        public InputAction @Decrease => m_Wrapper.m_Player_Decrease;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -280,6 +348,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Increase.started += instance.OnIncrease;
+            @Increase.performed += instance.OnIncrease;
+            @Increase.canceled += instance.OnIncrease;
+            @Decrease.started += instance.OnDecrease;
+            @Decrease.performed += instance.OnDecrease;
+            @Decrease.canceled += instance.OnDecrease;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -296,6 +370,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Increase.started -= instance.OnIncrease;
+            @Increase.performed -= instance.OnIncrease;
+            @Increase.canceled -= instance.OnIncrease;
+            @Decrease.started -= instance.OnDecrease;
+            @Decrease.performed -= instance.OnDecrease;
+            @Decrease.canceled -= instance.OnDecrease;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -319,5 +399,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMoveRight(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnIncrease(InputAction.CallbackContext context);
+        void OnDecrease(InputAction.CallbackContext context);
     }
 }

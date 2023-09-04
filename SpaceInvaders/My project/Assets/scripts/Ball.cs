@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,14 +9,11 @@ public class Ball : MonoBehaviour {
 
     [SerializeField] private Rigidbody2D rigidbody2d;
 
-    private Vector3 lastVelocity;
-
-    [SerializeField] private float g = 1f;
+    //private Vector3 lastVelocity;
 
     private float triggerTimer = 0f;
     private float triggerTime = 0.1f;
-    private bool triggerArmed = false;
-
+    private bool isTriggerArmed = false;
     private void Awake() {
         if (rigidbody2d == null) {
             rigidbody2d = GetComponent<Rigidbody2D>();
@@ -25,38 +23,35 @@ public class Ball : MonoBehaviour {
     private void Start() {
         GravityManager.attractees.Add(rigidbody2d);
         BallIndicatorUI.Ball = this.gameObject;
+        rigidbody2d.velocity = new Vector2(0, 0);
         rigidbody2d.AddForce(new Vector2(
-            Player.Instance.transform.position.x - Dome.Instance.transform.position.x, 
-            Player.Instance.transform.position.y - Dome.Instance.transform.position.y
-            ).normalized * g);
+            this.transform.position.x - Dome.Instance.transform.position.x,
+            this.transform.position.y - Dome.Instance.transform.position.y
+            ).normalized * Player.Instance.G);
     }
 
     private void Update() {
 
-        lastVelocity = rigidbody2d.velocity;
-
-
-        if (!triggerArmed) {
+        //lastVelocity = rigidbody2d.velocity;
+        if (!isTriggerArmed) {
             triggerTimer += Time.deltaTime;
             if (triggerTimer >= triggerTime) {
-                triggerArmed = true;
+                isTriggerArmed = true;
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (!triggerArmed) { return; }
+    private void FixedUpdate() {
+        if (this.transform.position.y > CameraManager.Instance.topRightCorner.y + 1 ||
+            this.transform.position.y < CameraManager.Instance.bottomLeftCorner.y - 1 ||
+            this.transform.position.x > CameraManager.Instance.topRightCorner.x + 1 ||
+            this.transform.position.x < CameraManager.Instance.bottomLeftCorner.x - 1) {
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
 
-            triggerArmed = false;
-            triggerTimer = 0f;
-            rigidbody2d.velocity = new Vector2(0, 0);
             rigidbody2d.AddForce(new Vector2(
-                this.transform.position.x - Player.Instance.transform.position.x,
-                this.transform.position.y - Player.Instance.transform.position.y
-                ).normalized * g);
-
+                Dome.Instance.transform.position.x - this.transform.position.x,
+                Dome.Instance.transform.position.y - this.transform.position.y
+                ).normalized * 25);
         }
     }
 
@@ -69,7 +64,20 @@ public class Ball : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
 
+        if (!isTriggerArmed) { return; }
 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
+
+            isTriggerArmed = false;
+
+            triggerTimer = 0f;
+            rigidbody2d.velocity = new Vector2(0, 0);
+            rigidbody2d.AddForce(new Vector2(
+                this.transform.position.x - Player.Instance.transform.position.x,
+                this.transform.position.y - Player.Instance.transform.position.y
+                ).normalized * Player.Instance.G);
+
+        }
 
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Planet")) {
         //    //GravityManager.attractees.Remove(rigidbody2d);
