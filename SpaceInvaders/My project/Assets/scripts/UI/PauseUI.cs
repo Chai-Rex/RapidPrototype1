@@ -22,12 +22,16 @@ public class PauseUI : MonoBehaviour {
     [Header("Buttons")]
     [SerializeField] private Button moveLeftButton;
     [SerializeField] private Button moveRightButton;
+    [SerializeField] private Button increaseButton;
+    [SerializeField] private Button decreaseButton;
     [SerializeField] private Button actionButton;
     [SerializeField] private Button pauseButton;
-    [Header("Text")]
 
+    [Header("Text")]
     [SerializeField] private TextMeshProUGUI moveLeftText;
     [SerializeField] private TextMeshProUGUI moveRightText;
+    [SerializeField] private TextMeshProUGUI increaseText;
+    [SerializeField] private TextMeshProUGUI decreaseText;
     [SerializeField] private TextMeshProUGUI actionText;
     [SerializeField] private TextMeshProUGUI pauseText;
 
@@ -57,11 +61,15 @@ public class PauseUI : MonoBehaviour {
         //keyboard
         moveLeftButton.onClick.AddListener(() => { moveLeftText.text = "< >"; GameInput.Instance.RebindBinding(GameInput.Binding.Move_Left, () => { UpdateInputVisuals(); }); });
         moveRightButton.onClick.AddListener(() => { moveRightText.text = "< >"; GameInput.Instance.RebindBinding(GameInput.Binding.Move_Right, () => { UpdateInputVisuals(); }); });
+        increaseButton.onClick.AddListener(() => { increaseText.text = "< >"; GameInput.Instance.RebindBinding(GameInput.Binding.Increase, () => { UpdateInputVisuals(); }); });
+        decreaseButton.onClick.AddListener(() => { decreaseText.text = "< >"; GameInput.Instance.RebindBinding(GameInput.Binding.Decrease, () => { UpdateInputVisuals(); }); });
         actionButton.onClick.AddListener(() => { actionText.text = "< >"; GameInput.Instance.RebindBinding(GameInput.Binding.Action, () => { UpdateInputVisuals(); }); });
         pauseButton.onClick.AddListener(() => { pauseText.text = "< >"; GameInput.Instance.RebindBinding(GameInput.Binding.Pause, () => { UpdateInputVisuals(); }); });
     }
 
     private void Start() {
+        UpdateInputVisuals();
+
         GameStateManager.Instance.OnGamePaused += GameBranch_OnGamePaused;
         GameStateManager.Instance.OnGameUnpaused += GameBranch_OnGameUnpaused;
 
@@ -92,6 +100,8 @@ public class PauseUI : MonoBehaviour {
         //keyboard
         moveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left);
         moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
+        increaseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Increase);
+        decreaseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Decrease);
         actionText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Action);
         pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
     }

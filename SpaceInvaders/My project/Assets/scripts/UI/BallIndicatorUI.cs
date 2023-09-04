@@ -22,10 +22,10 @@ public class BallIndicatorUI : MonoBehaviour {
 
         if (!Ball) { UI.gameObject.SetActive(false); return; }
 
-        if (Ball.transform.position.y > CameraManager.Instance.topEdge.y + OutOfBoundsOffset ||
-            Ball.transform.position.y < CameraManager.Instance.bottomEdge.y - OutOfBoundsOffset ||
-            Ball.transform.position.x > CameraManager.Instance.rightEdge.x + OutOfBoundsOffset ||
-            Ball.transform.position.x < CameraManager.Instance.leftEdge.x - OutOfBoundsOffset) {
+        if (Ball.transform.position.y > CameraManager.Instance.topRightCorner.y + OutOfBoundsOffset ||
+            Ball.transform.position.y < CameraManager.Instance.bottomLeftCorner.y - OutOfBoundsOffset ||
+            Ball.transform.position.x > CameraManager.Instance.topRightCorner.x + OutOfBoundsOffset ||
+            Ball.transform.position.x < CameraManager.Instance.bottomLeftCorner.x - OutOfBoundsOffset) {
 
             // face towards ball
             Vector3 direction = Ball.transform.position - this.transform.position;

@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 4553341690552876487}
-  g: 2000
 --- !u!212 &3900084168606732975
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -146,7 +145,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 4914617525971615289}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 5eddc62359e48434cb858f575666f6b6, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -188,7 +187,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 5eddc62359e48434cb858f575666f6b6, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

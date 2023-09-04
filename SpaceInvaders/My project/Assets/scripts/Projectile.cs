@@ -17,10 +17,10 @@ public class Projectile : MonoBehaviour {
     }
 
     private void Update() {
-        if (this.transform.position.y > CameraManager.Instance.topEdge.y + 1 ||
-            this.transform.position.y < CameraManager.Instance.bottomEdge.y - 1 ||
-            this.transform.position.x > CameraManager.Instance.rightEdge.x + 1 ||
-            this.transform.position.x < CameraManager.Instance.leftEdge.x - 1) {
+        if (this.transform.position.y > CameraManager.Instance.topRightCorner.y + 1 ||
+            this.transform.position.y < CameraManager.Instance.bottomLeftCorner.y - 1 ||
+            this.transform.position.x > CameraManager.Instance.topRightCorner.x + 1 ||
+            this.transform.position.x < CameraManager.Instance.bottomLeftCorner.x - 1) {
 
 
             Destroy(this.gameObject);

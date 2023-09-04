@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using static UnityEngine.CullingGroup;
 
 public class GravityManager : MonoBehaviour {
 
     public static GravityManager Instance { get; private set; }
 
-    [SerializeField] float g = 1f;
+    [SerializeField] private float g = 1f;
     static float G;
-    //in physical universe every body would be both attractor and attractee
+
     public static List<Rigidbody2D> attractors = new List<Rigidbody2D>();
     public static List<Rigidbody2D> attractees = new List<Rigidbody2D>();
-    public static bool isSimulatingLive = true;
+
 
     private void Awake() {
         if (Instance != null) {
@@ -21,9 +23,10 @@ public class GravityManager : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        G = g;//in case g is changed in editor
-        if (isSimulatingLive)
-            SimulateGravities();
+        G = g;
+
+        SimulateGravities();
+
     }
     public static void SimulateGravities() {
         foreach (Rigidbody2D attractor in attractors) {
@@ -35,6 +38,7 @@ public class GravityManager : MonoBehaviour {
     }
 
     public static void AddGravityForce(Rigidbody2D attractor, Rigidbody2D target) {
+
         float massProduct = attractor.mass * target.mass * G;
 
         //float distance = Vector3.Distance(attractor.position,target.position.
