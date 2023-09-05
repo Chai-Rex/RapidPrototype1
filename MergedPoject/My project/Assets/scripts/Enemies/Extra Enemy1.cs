@@ -16,7 +16,6 @@ public class ExtraEnemy1 : MonoBehaviour
     private void Start()
     {
 
-
         InvokeRepeating("GenerateBomb", 0, intervalBetweenBomb);
     }
 
@@ -45,15 +44,9 @@ public class ExtraEnemy1 : MonoBehaviour
         {
             //Debug.Log("hit");
             ScoreManager.Instance.AddToScore(100);
+            this.GetComponentInParent<SpawnerA>().currentMonsterAmount -= 1;
             Destroy(this.gameObject);
             return;
-        }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Planet") ||
-            collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            Dome.Instance.LowerHeathBy(50);
-            Destroy(this.gameObject);
         }
 
     }

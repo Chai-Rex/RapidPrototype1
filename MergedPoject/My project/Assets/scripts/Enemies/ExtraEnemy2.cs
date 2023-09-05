@@ -18,23 +18,13 @@ public class ExtraEnemy2 : MonoBehaviour
     //Zigezag Pos
     
     static Vector3 pos11,pos12,pos13,pos14,pos21,pos22,pos23,pos24,pos31,pos32,pos33,pos34,pos41,pos42,pos43,pos44 = new Vector3();
-    private Vector3[] pos1={pos11, pos12, pos13, pos14, pos21, pos22, pos23, pos24, pos31, pos32, pos33, pos34, pos41, pos42, pos43, pos44 };
-    private Vector3[] pos2={pos21, pos22, pos23, pos24, pos31, pos32, pos33, pos34, pos41, pos42, pos43, pos44, pos11, pos12, pos13, pos14 };
+    public Vector3[] pos1={pos11, pos12, pos13, pos14, pos21, pos22, pos23, pos24, pos31, pos32, pos33, pos34, pos41, pos42, pos43, pos44 };
+    public Vector3[] pos2={pos21, pos22, pos23, pos24, pos31, pos32, pos33, pos34, pos41, pos42, pos43, pos44, pos11, pos12, pos13, pos14 };
     
 
     private void Start()
     {
-        
-        for (int i = 0; i < 12; i++)
-        {
-            pos1[i]=GameObject.Find("SpawnerB").GetComponent<SpawnerB>().Pos[i].transform.position;
-            pos2[i]=GameObject.Find("SpawnerB").GetComponent<SpawnerB>().Pos[i+4].transform.position;
-        }
-        for (int i=12;i<16;i++)
-        {
-            pos1[i] = GameObject.Find("SpawnerB").GetComponent<SpawnerB>().Pos[i].transform.position;
-            pos2[i] = GameObject.Find("SpawnerB").GetComponent<SpawnerB>().Pos[i -12].transform.position;
-        }
+
     }
 
 
@@ -103,16 +93,11 @@ public class ExtraEnemy2 : MonoBehaviour
         {
             //Debug.Log("hit");
             ScoreManager.Instance.AddToScore(100);
+            this.GetComponentInParent<SpawnerB>().currentMonsterAmount -= 1;
             Destroy(this.gameObject);
             return;
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Planet") ||
-            collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            Dome.Instance.LowerHeathBy(50);
-            Destroy(this.gameObject);
-        }
 
     }
 }
