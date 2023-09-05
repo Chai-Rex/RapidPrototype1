@@ -2572,7 +2572,6 @@ GameObject:
   m_Component:
   - component: {fileID: 575111291}
   - component: {fileID: 575111290}
-  - component: {fileID: 575111292}
   m_Layer: 0
   m_Name: SpaceBackground1024
   m_TagString: Untagged
@@ -2647,27 +2646,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &575111292
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 575111289}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f39ad88ac1a30445cbc093409bc478cc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &591430315
 GameObject:
   m_ObjectHideFlags: 0
@@ -2737,7 +2715,7 @@ MonoBehaviour:
   Object: {fileID: 2355331785358593158, guid: aeb92586ae783f3498afba38aa4ce87c, type: 3}
   currentTimeWaiting: 10
   intervalBetweenEnemy1: 10
-  monsterMaxAmount: 3
+  monsterMaxAmount: 1
   currentMonsterAmount: 0
 --- !u!4 &599488105
 Transform:
@@ -5122,7 +5100,7 @@ MonoBehaviour:
   - {fileID: 195237215}
   intervalBetweenEnemy2: 30
   currentTimeWaiting: 15
-  monsterMaxAmount: 3
+  monsterMaxAmount: 1
   currentMonsterAmount: 0
 --- !u!4 &1121673246
 Transform:
