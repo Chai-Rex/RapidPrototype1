@@ -15,7 +15,10 @@ public class SurvayerInvader : MonoBehaviour {
 
             Instantiate(Drop, this.transform.position, Quaternion.identity, DropParent);
 
+            ScoreManager.Instance.IncrementInvadersDestroyed();
+            ScoreManager.Instance.IncrementSpecialInvadersDestroyed();
             ScoreManager.Instance.AddToScore(3000);
+
             this.gameObject.SetActive(false);
         }
     }

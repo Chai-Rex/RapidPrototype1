@@ -55,6 +55,8 @@ public class SpecialLanderInvader : MonoBehaviour {
     }
 
     private void DestroySelf() {
+        ScoreManager.Instance.IncrementInvadersDestroyed();
+        ScoreManager.Instance.IncrementSpecialInvadersDestroyed();
         this.killed.Invoke();
         onLanderKilled?.Invoke(this, EventArgs.Empty);
         this.gameObject.SetActive(false);

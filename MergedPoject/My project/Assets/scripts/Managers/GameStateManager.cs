@@ -63,7 +63,6 @@ public class GameStateManager : MonoBehaviour {
     public void EndGame() {
         state = State.GameOver;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
-        EndUI.Instance.UpdateFinalScore();
         EndUI.Instance.gameObject.SetActive(true);
         Time.timeScale = 0f;
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);

@@ -8,7 +8,12 @@ public class ScoreManager : MonoBehaviour {
 
     public static ScoreManager Instance { get; private set; }
 
-    private int currentScore = 0;
+    public int currentScore { get; private set; }
+
+    public int projectilesBounced { get; private set; }
+    public int invadersDestroyed { get; private set; }
+    public int specialInvadersDestroyed { get; private set; }
+    public int moonBounces { get; private set; }
 
     public event EventHandler OnScoreChange;
 
@@ -21,9 +26,17 @@ public class ScoreManager : MonoBehaviour {
         currentScore += scorePointsOnKill;
         OnScoreChange?.Invoke(this, EventArgs.Empty);
     }
-
-    public int GetScore() {
-        return currentScore;
+    public void IncrementProjectilesBounced() {
+        projectilesBounced++;
+    }
+    public void IncrementInvadersDestroyed() {
+        invadersDestroyed++;
+    }
+    public void IncrementSpecialInvadersDestroyed() {
+        specialInvadersDestroyed++;
+    }
+    public void IncrementMoonBounces() {
+        moonBounces++;
     }
 
 }

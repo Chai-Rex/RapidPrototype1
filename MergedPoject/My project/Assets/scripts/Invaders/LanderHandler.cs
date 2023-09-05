@@ -10,6 +10,8 @@ using static UnityEditor.Rendering.CameraUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class LanderHandler : MonoBehaviour {
+    [SerializeField] private int quadrantID = 0;
+
     [Header("Grid Settings")]
     [SerializeField] private int rows = 5;
     [SerializeField] private int columns = 11;
@@ -24,8 +26,7 @@ public class LanderHandler : MonoBehaviour {
     [SerializeField] private float incrementSpeedBy = 0.25f;
     [SerializeField] private AnimationCurve moveSpeed;
 
-    [Header("Projectile Settings")]
-    [SerializeField] private float missileRate = 1f;
+    //[Header("Projectile Settings")]
 
     [Header("Spawn Movement")]
     [SerializeField] private float moveIntoFrameSpeed = 1f;
@@ -48,12 +49,25 @@ public class LanderHandler : MonoBehaviour {
 
     private float percentKilled => (float)amountKilled / (float)totalAmountInvaders;
 
+    // firing projectiles
+    //private 
+    private enum Pattern {
+        ZigZag,
+        Rain,
+        Wild
+    }
+    private Pattern pattern;
+    private int yRow = 0;
+    private int xColumn = 0;
+    private int fireDirection = 0;
+    private int stayDuration = 0;
+
     private GameObject[,] InvaderGrid;
     private GameObject[] RadiusParents;
 
 
     private void Awake() {
-        InvaderGrid = new GameObject[rows, columns];
+        InvaderGrid = new GameObject[columns, rows];
         RadiusParents = new GameObject[columns];
     }
 
@@ -61,7 +75,10 @@ public class LanderHandler : MonoBehaviour {
         increaseBaseSpeedPercent -= incrementSpeedBy;
         StartLanders();
         //LanderInvader.onLanderKilled += Invader_OnLanderKilled;
-        InvokeRepeating(nameof(FireMissle), missileRate, missileRate);
+        //InvokeRepeating(nameof(FireMissle), missileRate, missileRate);
+
+        ProjectileManager.Instance.OnProjectileTick += ProjectileManager_OnProjectileTick;
+        RandomizeFire();
     }
 
     private void StartLanders() {
@@ -79,21 +96,21 @@ public class LanderHandler : MonoBehaviour {
 
             for (int row = 0; row < rows; row++) {
                 if (row == rows / 2) {
-                    InvaderGrid[row, col] = Instantiate(SpecialLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                    InvaderGrid[col, row] = Instantiate(SpecialLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
                     // action
-                    SpecialLanderInvader currentInvader = InvaderGrid[row, col].GetComponent<SpecialLanderInvader>();
+                    SpecialLanderInvader currentInvader = InvaderGrid[col, row].GetComponent<SpecialLanderInvader>();
                     if (!currentInvader) { Debug.LogError("missing SpecialLanderInvader script"); }
                     currentInvader.killed += InvaderKilled;
                 } else {
-                    InvaderGrid[row, col] = Instantiate(BasicLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                    InvaderGrid[col, row] = Instantiate(BasicLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
                     // action
-                    LanderInvader currentInvader = InvaderGrid[row, col].GetComponent<LanderInvader>();
+                    LanderInvader currentInvader = InvaderGrid[col, row].GetComponent<LanderInvader>();
                     if (!currentInvader) { Debug.LogError("missing LanderInvader script"); }
                     currentInvader.killed += InvaderKilled;
                 }
 
 
-                InvaderGrid[row, col].transform.localPosition += new Vector3(0, CameraManager.Instance.viewportRadius + row * heightPadding, 0);
+                InvaderGrid[col, row].transform.localPosition += new Vector3(0, CameraManager.Instance.viewportRadius + row * heightPadding, 0);
 
             }
 
@@ -108,7 +125,7 @@ public class LanderHandler : MonoBehaviour {
         for (int col = 0; col < this.columns; col++) {
             Destroy(RadiusParents[col]);
             for (int row = 0; row < rows; row++) {
-                Destroy(InvaderGrid[row, col]);
+                Destroy(InvaderGrid[col, row]);
             }
         }
 
@@ -195,17 +212,125 @@ public class LanderHandler : MonoBehaviour {
 
     }
 
-    private void FireMissle() {
-        foreach (GameObject invader in InvaderGrid) {
-            if (!invader.gameObject.activeInHierarchy) {
-                continue;
+
+
+    private void ProjectileManager_OnProjectileTick(object sender, System.EventArgs e) {
+        if (ProjectileManager.Instance.selectedQuadrant != quadrantID) { return; }
+
+        switch (pattern) {
+            case Pattern.ZigZag:
+                ZigZag();
+
+                break;
+            case Pattern.Rain:
+                Rain();
+
+                break;
+            case Pattern.Wild:
+                Wild();
+
+                break;
+        }
+    }
+    private bool FireMissle() {
+        if (!InvaderGrid[xColumn, yRow].gameObject.activeInHierarchy) { return false; }
+        Instantiate(missile, InvaderGrid[xColumn, yRow].transform.position, Quaternion.identity, projectileHolder);
+        return true;
+    }
+
+    private void RandomizeFire() {
+        int randomPattern = Random.Range(0, 3);
+        switch (randomPattern) {
+            case 0: pattern = Pattern.ZigZag; break;
+            case 1: pattern = Pattern.Rain; break;
+            case 2: pattern = Pattern.Wild; break;
+        }
+        xColumn = Random.Range(0, columns);
+        yRow = rows - 1;
+        fireDirection = Random.Range(0, 2);
+        stayDuration = Random.Range(4, 12);
+    }
+
+    private void ZigZag() {
+        bool isfired = false;
+        do {
+            isfired = FireMissle();
+            if (fireDirection == 0) {
+                if (xColumn <= 0) {
+                    fireDirection = 1;
+                    xColumn++;
+                    yRow--;
+                } else {
+                    xColumn--;
+                }
+            } else {
+                if (xColumn >= columns - 1) {
+                    fireDirection = 0;
+                    xColumn--;
+                    yRow--;
+                } else {
+                    xColumn++;
+                }
             }
 
-            if (Random.value < (1.0f / (float)amoutAlive)) {
-                Instantiate(missile, invader.transform.position, Quaternion.identity, projectileHolder);
+            if (yRow < 0) {
+                RandomizeFire();
+                ProjectileManager.Instance.SelectNewQuadrant();
                 break;
             }
-        }
+        } while (!isfired);
+    }
+
+    private void Rain() {;
+        bool isfired = false;
+        do {
+            isfired = FireMissle();
+
+            if (stayDuration > 0) {
+                if (yRow <= 0) {
+                    stayDuration--;
+                    yRow = rows - 1;
+                    xColumn = Random.Range(0, columns);
+                } else {
+                    yRow--;
+                }
+            } else {
+                RandomizeFire();
+                ProjectileManager.Instance.SelectNewQuadrant();
+                break;
+            }
+        } while (!isfired);
+
+    }
+
+    private void Wild() {
+        bool isfired = false;
+        do {
+            isfired = FireMissle();
+            fireDirection = Random.Range(0, 2);
+            if (fireDirection == 0) {
+                if (xColumn <= 0) {
+                    xColumn++;
+                    yRow--;
+                } else {
+                    xColumn--;
+                }
+            } else {
+                if (xColumn >= columns - 1) {
+                    fireDirection = 0;
+                    xColumn--;
+                    yRow--;
+                } else {
+                    xColumn++;
+                }
+            }
+
+            if (yRow < 0) {
+                RandomizeFire();
+                ProjectileManager.Instance.SelectNewQuadrant();
+                break;
+            }
+        } while (!isfired);
     }
 
     private void InvaderKilled() {

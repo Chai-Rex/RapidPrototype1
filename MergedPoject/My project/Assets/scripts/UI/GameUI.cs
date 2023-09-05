@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour {
     [SerializeField] private TMP_Text powerText;
 
     private void Start() {
-        scoreText.text = "SCORE " + ScoreManager.Instance.GetScore();
+        scoreText.text = "SCORE " + ScoreManager.Instance.currentScore;
         livesText.text = "LIVES " + Dome.Instance.GetLives();
         powerText.text = "POWER " + Player.Instance.G / 100;
 
@@ -38,7 +38,7 @@ public class GameUI : MonoBehaviour {
     }
 
     private void ScoreManager_OnScoreChange(object sender, System.EventArgs e) {
-        scoreText.text = "SCORE " + ScoreManager.Instance.GetScore();
+        scoreText.text = "SCORE " + ScoreManager.Instance.currentScore;
 
     }
 

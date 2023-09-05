@@ -13,6 +13,7 @@ public class LanderInvader : MonoBehaviour {
             collision.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile")) {
             //Debug.Log("hit");
             ScoreManager.Instance.AddToScore(100);
+            ScoreManager.Instance.IncrementInvadersDestroyed();
             this.killed.Invoke();
             onLanderKilled?.Invoke(this, EventArgs.Empty);
             this.gameObject.SetActive(false);

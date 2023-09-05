@@ -30,12 +30,15 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("Ball")) {
+
+            ScoreManager.Instance.IncrementProjectilesBounced();
 
             rigidbody2d.velocity = new Vector2(0, 0);
             rigidbody2d.AddForce(new Vector2(
-                this.transform.position.x - Player.Instance.transform.position.x,
-                this.transform.position.y - Player.Instance.transform.position.y
+                this.transform.position.x - collision.transform.position.x,
+                this.transform.position.y - collision.transform.position.y
                 ).normalized * g);
 
             spriteRenderer.color = color;
@@ -45,17 +48,25 @@ public class Projectile : MonoBehaviour {
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Planet")) {
-            if (planetHitEffect != null)
-            {
-                Instantiate(planetHitEffect, transform.position, transform.rotation, null);
+            if (this.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile")) {
+                // bounce back
+                rigidbody2d.velocity = new Vector2(0, 0);
+                rigidbody2d.AddForce(new Vector2(
+                    this.transform.position.x - collision.transform.position.x,
+                    this.transform.position.y - collision.transform.position.y
+                    ).normalized * g);
+            } else {
+                if (planetHitEffect != null) {
+                    Instantiate(planetHitEffect, transform.position, transform.rotation, null);
+                }
+                Dome.Instance.LowerHeathBy(1);
+                Destroy(this.gameObject);
             }
-            Dome.Instance.LowerHeathBy(1);
-            Destroy(this.gameObject);
+
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Invader")) {
-            if (InvaderHitEffect != null)
-            {
+            if (InvaderHitEffect != null) {
                 Instantiate(InvaderHitEffect, transform.position, transform.rotation, null);
             }
             Destroy(this.gameObject);

@@ -70,6 +70,8 @@ public class Ball : MonoBehaviour {
 
             isTriggerArmed = false;
 
+            ScoreManager.Instance.IncrementMoonBounces();
+
             triggerTimer = 0f;
             rigidbody2d.velocity = new Vector2(0, 0);
             rigidbody2d.AddForce(new Vector2(
