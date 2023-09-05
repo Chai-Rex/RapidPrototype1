@@ -120,8 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 0
-  speed: 10
-  intervalBetweenBomb: 1
+  speed: 15
+  intervalBetweenBomb: 0.45
   bomb: {fileID: 1657243590781112486, guid: b9300e38f9f36ba4687f52cad1416ba1, type: 3}
 --- !u!1 &7123538956870582074
 GameObject:

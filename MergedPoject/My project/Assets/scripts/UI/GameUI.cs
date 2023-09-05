@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class GameUI : MonoBehaviour {
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text pressSpaceText;
     [SerializeField] private TMP_Text powerText;
+    [SerializeField] private Slider slider;
 
     private void Start() {
         scoreText.text = "SCORE " + ScoreManager.Instance.currentScore;
@@ -44,6 +46,7 @@ public class GameUI : MonoBehaviour {
 
     private void Dome_OnLivesChange(object sender, System.EventArgs e) {
         livesText.text = "LIVES " + Dome.Instance.GetLives();
+        slider.value = Dome.Instance.GetNormalizeLives();
     }
 
     private void GameInput_OnIncrease(object sender, System.EventArgs e) {

@@ -11,7 +11,7 @@ public class Dome : MonoBehaviour {
 
     public event EventHandler OnLivesChange;
 
-    [SerializeField] private int remainingHealth = 200;
+    [SerializeField] private int remainingHealth = 300;
 
     [SerializeField] private Rigidbody2D rigidbody2d;
 
@@ -47,6 +47,11 @@ public class Dome : MonoBehaviour {
 
     public int GetLives() {
         return remainingHealth;
+    }
+    public float GetNormalizeLives()
+    {
+        float normalized = (float)remainingHealth / 300;
+        return normalized;
     }
 
 }
