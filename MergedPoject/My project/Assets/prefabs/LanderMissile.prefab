@@ -52,8 +52,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3376469278295803415}
   trailRenderer: {fileID: -4167960037374213549}
   g: 150
-  color: {r: 0, g: 0.6851115, b: 1, a: 1}
-  material: {fileID: 2100000, guid: 43a83dbcd04b53a40beef3ea530900d9, type: 2}
+  playerColor: {r: 0, g: 0.8937981, b: 1, a: 1}
+  invaderColor: {r: 1, g: 0, b: 0, a: 1}
+  playerTrail: {fileID: 2100000, guid: 43a83dbcd04b53a40beef3ea530900d9, type: 2}
+  invaderTrail: {fileID: 2100000, guid: 669a501a99a2782498e7aa18b17fdca9, type: 2}
   InvaderHitEffect: {fileID: 3287935543775063484, guid: a7554ff98eb80be46aa6f3cf7550c9bb, type: 3}
   planetHitEffect: {fileID: 8403054171483933781, guid: 669e6a5f091571c4bbac482dbeb580ae, type: 3}
 --- !u!212 &3376469278295803415

@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14af0f6c9bef2fe4e926a7ca93befd6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quadrantID: 0
   rows: 5
   columns: 11
   degreesBetweenInvaders: 6
@@ -51,6 +52,7 @@ MonoBehaviour:
   startingDegree: 0
   startingDirection: 1
   dropAmount: 1
+  bounceAmount: 3
   rotationSpeed: 3
   incrementSpeedBy: 0.25
   moveSpeed:
@@ -77,7 +79,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  missileRate: 2
+  bounceSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 10.511833
+      outSlope: 10.511833
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.022485347
+    - serializedVersion: 3
+      time: 1
+      value: 5
+      inSlope: 0.010625107
+      outSlope: 0.010625107
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.25073528
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   moveIntoFrameSpeed: 3
   moveIntoFrameAmount: 10
   BasicLanderInvader: {fileID: 1497044804663318687, guid: 5b1527cbdb39e784b8218bd50955ab92, type: 3}

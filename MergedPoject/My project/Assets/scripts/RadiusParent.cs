@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RadiusParent : MonoBehaviour {
     public static RadiusParent Instance { get; private set; }
 
     [SerializeField] private float playerRotationSpeed = 80f;
+
+    [SerializeField] private float lerpDuration = 0.25f;
+    private float elapsedTime = 0f;
 
     private bool isMoveLeft = false;
     private bool isMoveRight = false;
@@ -41,16 +45,31 @@ public class RadiusParent : MonoBehaviour {
     }
 
     private void Update() {
-        if (isMoveLeft && isMoveRight) { return; }
+
+        if ((isMoveLeft && isMoveRight) || (!isMoveLeft && !isMoveRight)) {
+            if (elapsedTime <= 0) {
+                elapsedTime = 0;
+            } else {
+                elapsedTime -= Time.deltaTime;
+            }
+            return; 
+        }
+
+        if (elapsedTime >= lerpDuration) { 
+            elapsedTime = lerpDuration; 
+        } else {
+            elapsedTime += Time.deltaTime;
+        }
 
         if (isMoveLeft) {
             // move left
-            transform.Rotate(0, 0, 1 * playerRotationSpeed * Time.deltaTime);
+            transform.Rotate(0, 0, Mathf.Lerp(0, 1, elapsedTime / lerpDuration) * playerRotationSpeed * Time.deltaTime);
         }
 
         if (isMoveRight) {
             // move right
-            transform.Rotate(0, 0, -1 * playerRotationSpeed * Time.deltaTime);
+            transform.Rotate(0, 0, -Mathf.Lerp(0, 1, elapsedTime / lerpDuration) * playerRotationSpeed * Time.deltaTime);
         }
     }
+
 }

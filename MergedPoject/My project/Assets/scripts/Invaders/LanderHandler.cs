@@ -10,7 +10,7 @@ using static UnityEditor.Rendering.CameraUI;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 public class LanderHandler : MonoBehaviour {
-    [SerializeField] private int quadrantID = 0;
+    [SerializeField] private int handlerID = 0;
 
     [Header("Grid Settings")]
     [SerializeField] private int rows = 5;
@@ -22,9 +22,11 @@ public class LanderHandler : MonoBehaviour {
     [SerializeField] private float startingDegree = 0f;
     [SerializeField] private float startingDirection = 1f;
     [SerializeField] private float dropAmount = 1f;
+    [SerializeField] private float bounceAmount = 1f;
     [SerializeField] private float rotationSpeed = 1f;
     [SerializeField] private float incrementSpeedBy = 0.25f;
     [SerializeField] private AnimationCurve moveSpeed;
+    [SerializeField] private AnimationCurve bounceSpeed;
 
     //[Header("Projectile Settings")]
 
@@ -38,9 +40,11 @@ public class LanderHandler : MonoBehaviour {
     [SerializeField] private Projectile missile;
     [SerializeField] private Transform projectileHolder;
 
-
     private float currentMoveIntoFrameAmount = 0f;
+    private float currentDropAmount = 0f;
+    private float currentBounceAmount = 0f;
     private bool isMovingDown = false;
+    private bool isMovingUp = false;
     private float increaseBaseSpeedPercent = 1;
     // counting 
     public int amountKilled { get; private set; }
@@ -85,28 +89,30 @@ public class LanderHandler : MonoBehaviour {
         currentMoveIntoFrameAmount = moveIntoFrameAmount;
         amountKilled = 0;
         increaseBaseSpeedPercent += incrementSpeedBy;
-        this.transform.eulerAngles = new Vector3(0, 0, 0);
+        this.transform.eulerAngles = Vector3.zero;
 
 
         // populate grid with invaders
 
         for (int col = 0; col < this.columns; col++) {
 
-            RadiusParents[col] = Instantiate(new GameObject("RadiusParentLander"), new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+            RadiusParents[col] = Instantiate(new GameObject("RadiusParentLander"), Vector3.zero, Quaternion.identity, this.transform);
 
             for (int row = 0; row < rows; row++) {
                 if (row == rows / 2) {
-                    InvaderGrid[col, row] = Instantiate(SpecialLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                    InvaderGrid[col, row] = Instantiate(SpecialLanderInvader, Vector3.zero, Quaternion.identity, RadiusParents[col].transform);
                     // action
                     SpecialLanderInvader currentInvader = InvaderGrid[col, row].GetComponent<SpecialLanderInvader>();
                     if (!currentInvader) { Debug.LogError("missing SpecialLanderInvader script"); }
                     currentInvader.killed += InvaderKilled;
+                    currentInvader.bounce += BounceGrid;
                 } else {
-                    InvaderGrid[col, row] = Instantiate(BasicLanderInvader, new Vector3(0, 0, 0), Quaternion.identity, RadiusParents[col].transform);
+                    InvaderGrid[col, row] = Instantiate(BasicLanderInvader, Vector3.zero, Quaternion.identity, RadiusParents[col].transform);
                     // action
                     LanderInvader currentInvader = InvaderGrid[col, row].GetComponent<LanderInvader>();
                     if (!currentInvader) { Debug.LogError("missing LanderInvader script"); }
                     currentInvader.killed += InvaderKilled;
+                    currentInvader.bounce += BounceGrid;
                 }
 
 
@@ -154,28 +160,53 @@ public class LanderHandler : MonoBehaviour {
 
         if (GameStateManager.Instance.IsGameCountdownToStart()) { GameStateManager.Instance.EndCountdownToStart(); }
 
+        //move up
+        if (isMovingUp) {
+
+
+            if (currentBounceAmount < bounceAmount) {
+                float moveAmountThisFrame = bounceSpeed.Evaluate(currentBounceAmount / bounceAmount) * Time.deltaTime;
+                currentBounceAmount += moveAmountThisFrame;
+                foreach (GameObject invader in InvaderGrid) {
+                    invader.transform.localPosition += new Vector3(0, moveAmountThisFrame, 0);
+                }
+                return;
+            }
+
+            if (currentBounceAmount > bounceAmount) {
+                foreach (GameObject invader in InvaderGrid) {
+                    invader.transform.localPosition -= new Vector3(0, currentBounceAmount - bounceAmount, 0);
+                }
+            }
+
+            isMovingUp = false;
+            currentBounceAmount = 0;
+        }
+
         //move down
         if (isMovingDown) {
 
 
-            if (dropAmount >= 0 ) {
+            if (currentDropAmount > 0) {
                 float moveAmountThisFrame = moveSpeed.Evaluate(percentKilled) * increaseBaseSpeedPercent * Time.deltaTime;
-                dropAmount -= moveAmountThisFrame;
+                currentDropAmount -= moveAmountThisFrame;
                 foreach (GameObject invader in InvaderGrid) {
                     invader.transform.localPosition -= new Vector3(0, moveAmountThisFrame, 0);
                 }
                 return;
             }
 
-            if (dropAmount < 0) {
+            if (currentDropAmount < 0) {
                 foreach (GameObject invader in InvaderGrid) {
-                    invader.transform.localPosition -= new Vector3(0, dropAmount, 0);
+                    invader.transform.localPosition -= new Vector3(0, currentDropAmount, 0);
                 }
             }
 
             isMovingDown = false;
-            dropAmount = 1f;
+            currentDropAmount = dropAmount;
         }
+
+
 
 
         //this.transform.position += direction * moveSpeed.Evaluate(percentKilled) * IncreaseBaseSpeedPercent * Time.deltaTime;
@@ -215,7 +246,7 @@ public class LanderHandler : MonoBehaviour {
 
 
     private void ProjectileManager_OnProjectileTick(object sender, System.EventArgs e) {
-        if (ProjectileManager.Instance.selectedQuadrant != quadrantID) { return; }
+        if (ProjectileManager.Instance.selectedHandler != handlerID) { return; }
 
         switch (pattern) {
             case Pattern.ZigZag:
@@ -275,7 +306,7 @@ public class LanderHandler : MonoBehaviour {
 
             if (yRow < 0) {
                 RandomizeFire();
-                ProjectileManager.Instance.SelectNewQuadrant();
+                ProjectileManager.Instance.SelectNewHandler();
                 break;
             }
         } while (!isfired);
@@ -296,7 +327,7 @@ public class LanderHandler : MonoBehaviour {
                 }
             } else {
                 RandomizeFire();
-                ProjectileManager.Instance.SelectNewQuadrant();
+                ProjectileManager.Instance.SelectNewHandler();
                 break;
             }
         } while (!isfired);
@@ -327,7 +358,7 @@ public class LanderHandler : MonoBehaviour {
 
             if (yRow < 0) {
                 RandomizeFire();
-                ProjectileManager.Instance.SelectNewQuadrant();
+                ProjectileManager.Instance.SelectNewHandler();
                 break;
             }
         } while (!isfired);
@@ -341,6 +372,12 @@ public class LanderHandler : MonoBehaviour {
             DestroyLanders();
             StartLanders();
         }
+    }
+
+    private void BounceGrid() {
+
+        isMovingUp = true;
+
     }
 
 }

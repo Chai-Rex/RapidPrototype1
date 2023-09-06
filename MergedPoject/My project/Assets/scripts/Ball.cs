@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour {
 
 
     [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private float forceBackToPlanetWhileOutOfScreen = 25f;
 
     //private Vector3 lastVelocity;
 
@@ -23,6 +24,7 @@ public class Ball : MonoBehaviour {
     private void Start() {
         GravityManager.attractees.Add(rigidbody2d);
         BallIndicatorUI.Ball = this.gameObject;
+        SoundManager.Instance.SoundPlayerShoot(this.transform.position);
         rigidbody2d.velocity = new Vector2(0, 0);
         rigidbody2d.AddForce(new Vector2(
             this.transform.position.x - Dome.Instance.transform.position.x,
@@ -51,7 +53,7 @@ public class Ball : MonoBehaviour {
             rigidbody2d.AddForce(new Vector2(
                 Dome.Instance.transform.position.x - this.transform.position.x,
                 Dome.Instance.transform.position.y - this.transform.position.y
-                ).normalized * 25);
+                ).normalized * forceBackToPlanetWhileOutOfScreen);
         }
     }
 
@@ -71,6 +73,7 @@ public class Ball : MonoBehaviour {
             isTriggerArmed = false;
 
             ScoreManager.Instance.IncrementMoonBounces();
+            SoundManager.Instance.SoundPlayerBallBounce(this.transform.position);
 
             triggerTimer = 0f;
             rigidbody2d.velocity = new Vector2(0, 0);
@@ -79,6 +82,12 @@ public class Ball : MonoBehaviour {
                 this.transform.position.y - Player.Instance.transform.position.y
                 ).normalized * Player.Instance.G);
 
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Invader")) {
+            SoundManager.Instance.SoundInvaderBallBounce(this.transform.position);
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Planet")) {
+            SoundManager.Instance.SoundPlanetBallBounce(this.transform.position);
         }
 
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Planet")) {

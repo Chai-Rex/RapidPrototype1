@@ -12,8 +12,15 @@ public class ProjectileManager : MonoBehaviour {
     public event EventHandler OnProjectileTick;
 
     [SerializeField] private float tickrate = 0.25f;
-    [SerializeField] private int numberOfQuandrants = 4;
-    public int selectedQuadrant { get; private set; }
+    [SerializeField] private int numberOfLanderHandlers = 4;
+    [SerializeField] private int numberOfBomberHandlers = 1;
+
+    [Header("Must add up to max")]
+    [SerializeField] private int max = 100;
+    [SerializeField] private int landerProbability = 60;
+    [SerializeField] private int bomberProbability = 40;
+
+    public int selectedHandler { get; private set; }
 
     private float tickTimer = 0f;
 
@@ -21,7 +28,7 @@ public class ProjectileManager : MonoBehaviour {
         Instance = this;
     }
     private void Start() {
-        SelectNewQuadrant();
+        SelectNewHandler();
     }
 
     private void Update() {
@@ -36,8 +43,19 @@ public class ProjectileManager : MonoBehaviour {
     }
 
 
-    public void SelectNewQuadrant() {
-        selectedQuadrant = Random.Range(0, numberOfQuandrants);
+    public void SelectNewHandler() {
+        int selection = Random.Range(0, max);
+
+        if (selection <= landerProbability) {
+            selectedHandler = Random.Range(0, numberOfLanderHandlers);
+            return;
+        }
+        if (selection > landerProbability && selection <= bomberProbability + landerProbability) {
+            selectedHandler = numberOfLanderHandlers + numberOfBomberHandlers - 1;
+            return;
+        }
+
 
     }
+
 }

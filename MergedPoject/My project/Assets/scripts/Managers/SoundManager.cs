@@ -18,15 +18,48 @@ public class SoundManager : MonoBehaviour {
         volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 0.5f);
     }
 
-    private void Start() {
-        LanderInvader.onLanderKilled += Invader_OnLanderKilled;
+    //========================================================================================
+    public void SoundInvaderBallBounce(Vector3 position) {
+        PlaySound(audioClipRefsSO.invaderBallBounce, position);
     }
-
-    private void Invader_OnLanderKilled(object sender, System.EventArgs e) {
-        LanderInvader invader = sender as LanderInvader;
-        PlaySound(audioClipRefsSO.explode, invader.transform.position);
-
+    public void SoundPlayerBallBounce(Vector3 position) {
+        PlaySound(audioClipRefsSO.playerBallBounce, position);
     }
+    public void SoundPlanetBallBounce(Vector3 position) {
+        PlaySound(audioClipRefsSO.planetBallBounce, position);
+    }
+    public void SoundProjectileBounce(Vector3 position) {
+        PlaySound(audioClipRefsSO.projectileBounce, position, 0.25f);
+    }
+    //========================================================================================
+    public void SoundProjectileDamageHP(Vector3 position) {
+        PlaySound(audioClipRefsSO.projectileDamageHP, position);
+    }
+    public void SoundInvaderDamageHP(Vector3 position) {
+        PlaySound(audioClipRefsSO.invaderDamageHP, position);
+    }
+    public void SoundGainHP(Vector3 position) {
+        PlaySound(audioClipRefsSO.gainHP, position);
+    }
+    //========================================================================================
+    public void SoundProjectileExplosion(Vector3 position) {
+        PlaySound(audioClipRefsSO.projectileExplosion, position);
+    }
+    public void SoundInvaderExplosion(Vector3 position) {
+        PlaySound(audioClipRefsSO.invaderExplosion, position);
+    }
+    //========================================================================================
+    public void SoundInvaderShoot(Vector3 position) {
+        PlaySound(audioClipRefsSO.invaderShoot, position, 0.5f);
+    }
+    public void SoundPlayerShoot(Vector3 position) {
+        PlaySound(audioClipRefsSO.playerShoot, position);
+    }
+    //========================================================================================
+    public void SoundGameOver(Vector3 position) {
+        PlaySound(audioClipRefsSO.gameOver, position);
+    }
+    //========================================================================================
 
     // play random audio clip from array
     private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volumeMultiplier = 1f) {

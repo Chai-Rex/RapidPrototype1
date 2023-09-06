@@ -17,9 +17,15 @@ public class Player : MonoBehaviour {
 
     [SerializeField] private float incrementG = 100f;
 
+    [SerializeField] private float damageImmuneTime = 1f;
+
     [SerializeField] private Ball ballPrefab;
     [SerializeField] private Transform ballParent;
+
     private Ball currentBall;
+
+    public bool isDamageImmune = false;
+    private float currentImmuneTimer = 0f;
 
     private void Awake() {
         if (Instance != null) {
@@ -36,8 +42,19 @@ public class Player : MonoBehaviour {
 
     }
     private void Update() {
-
+        HandleImmunity();
     }
+
+    private void HandleImmunity() {
+        if (isDamageImmune) {
+            currentImmuneTimer += Time.deltaTime;
+            if (currentImmuneTimer > damageImmuneTime) {
+                currentImmuneTimer = 0f;
+                isDamageImmune = false;
+            }
+        }
+    }
+
 
     private void GameInput_OnAction(object sender, System.EventArgs e) {
         // game must be started
@@ -57,4 +74,8 @@ public class Player : MonoBehaviour {
             G -= incrementG;
         }
     }
+    public float GetNormalizedPower() {
+        return (G - minG) / (maxG - minG);
+    }
+
 }

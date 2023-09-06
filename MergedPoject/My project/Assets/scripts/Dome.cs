@@ -11,9 +11,11 @@ public class Dome : MonoBehaviour {
 
     public event EventHandler OnLivesChange;
 
-    [SerializeField] private int remainingHealth = 300;
+    [SerializeField] private int maxHealth = 300;
 
     [SerializeField] private Rigidbody2D rigidbody2d;
+
+    private int remainingHealth = 0;
 
     private void Awake() {
         Instance = this;
@@ -25,6 +27,7 @@ public class Dome : MonoBehaviour {
 
     private void Start() {
        GravityManager.attractors.Add(rigidbody2d);
+        remainingHealth = maxHealth;
     }
 
     private void OnDestroy() {
@@ -41,16 +44,20 @@ public class Dome : MonoBehaviour {
     }
 
     public void RaiseHealthBy(int healing) {
-        remainingHealth += healing;
+        if (remainingHealth + healing > maxHealth)
+            remainingHealth = maxHealth;
+        else
+            remainingHealth += healing;
+
         OnLivesChange?.Invoke(this, EventArgs.Empty);
     }
 
     public int GetLives() {
         return remainingHealth;
     }
-    public float GetNormalizeLives()
+    public float GetNormalizedLives()
     {
-        float normalized = (float)remainingHealth / 300;
+        float normalized = (float)remainingHealth / maxHealth;
         return normalized;
     }
 

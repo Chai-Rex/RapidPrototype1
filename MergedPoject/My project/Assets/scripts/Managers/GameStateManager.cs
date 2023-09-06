@@ -63,6 +63,7 @@ public class GameStateManager : MonoBehaviour {
     public void EndGame() {
         state = State.GameOver;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
+        SoundManager.Instance.SoundGameOver(this.transform.position);
         EndUI.Instance.gameObject.SetActive(true);
         Time.timeScale = 0f;
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);

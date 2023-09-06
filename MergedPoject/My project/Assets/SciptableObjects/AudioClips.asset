@@ -12,10 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd99e4d21afe6745b32479fde296fa3, type: 3}
   m_Name: AudioClips
   m_EditorClassIdentifier: 
-  fire: []
-  explode:
-  - {fileID: 8300000, guid: 8cb5c9714064e134bb0a6f1e05bef0ea, type: 3}
+  invaderBallBounce:
+  - {fileID: 8300000, guid: 7bfec00a8a7aa1c4ca018284840ec17b, type: 3}
+  playerBallBounce:
+  - {fileID: 8300000, guid: faf5214c0fec3f143aa917f05c8fadfb, type: 3}
+  planetBallBounce:
+  - {fileID: 8300000, guid: 4a0207e06367bcf4aadb74d42f1dc96a, type: 3}
+  - {fileID: 8300000, guid: 10eb640fbdfef504ca07ddaba1ea31c0, type: 3}
+  projectileBounce:
+  - {fileID: 8300000, guid: 8695e4fedc1fad4459b6750972014d1a, type: 3}
+  - {fileID: 8300000, guid: a8ac5ffa12143bb439fcf27e05ad3e7c, type: 3}
+  projectileDamageHP:
+  - {fileID: 8300000, guid: 8a4214719d4160f46ada8543ee509684, type: 3}
+  invaderDamageHP:
+  - {fileID: 8300000, guid: 36aee16a7a518f148b40fc221ceff351, type: 3}
+  gainHP:
+  - {fileID: 8300000, guid: e3ae6cf3d4e281b448f89cce45e974af, type: 3}
+  projectileExplosion:
   - {fileID: 8300000, guid: 2a8854c488082324cad103e64e7b0697, type: 3}
-  - {fileID: 8300000, guid: 32fcb17a7d7996149ab2b7d66fb78473, type: 3}
-  - {fileID: 8300000, guid: 47511aaf604633249a44da79732b1897, type: 3}
-  warning: []
+  invaderExplosion:
+  - {fileID: 8300000, guid: 8cb5c9714064e134bb0a6f1e05bef0ea, type: 3}
+  invaderShoot:
+  - {fileID: 8300000, guid: 88e3cc43f701f804aa9dc0a222b68eed, type: 3}
+  - {fileID: 8300000, guid: 2925b054b45820046931a175c75be7dd, type: 3}
+  playerShoot:
+  - {fileID: 8300000, guid: b0a2657a26821134b8c19fbebbbf1210, type: 3}
+  gameOver:
+  - {fileID: 8300000, guid: 80b99a34d07306747bb2b35b7c583780, type: 3}
