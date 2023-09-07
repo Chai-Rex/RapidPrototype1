@@ -1,13 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEditor.Rendering.CameraUI;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class LanderHandler : MonoBehaviour {
     [SerializeField] private int handlerID = 0;

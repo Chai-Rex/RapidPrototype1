@@ -7,8 +7,6 @@ public class MainMenuPlanet : MonoBehaviour {
 
     [SerializeField] private Rigidbody2D rigidbody2d;
 
-    private int remainingHealth = 0;
-
     private void Awake() {
 
         if (rigidbody2d == null) {
