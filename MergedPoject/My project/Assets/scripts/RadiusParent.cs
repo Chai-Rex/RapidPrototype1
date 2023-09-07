@@ -8,7 +8,8 @@ public class RadiusParent : MonoBehaviour {
 
     [SerializeField] private float playerRotationSpeed = 80f;
 
-    [SerializeField] private float lerpDuration = 0.25f;
+    [SerializeField] private float lerpDuration = 0.5f;
+    [SerializeField] private float baseDuration = 0.2f;
     private float elapsedTime = 0f;
 
     private bool isMoveLeft = false;
@@ -47,8 +48,8 @@ public class RadiusParent : MonoBehaviour {
     private void Update() {
 
         if ((isMoveLeft && isMoveRight) || (!isMoveLeft && !isMoveRight)) {
-            if (elapsedTime <= 0) {
-                elapsedTime = 0;
+            if (elapsedTime <= baseDuration) {
+                elapsedTime = baseDuration;
             } else {
                 elapsedTime -= Time.deltaTime;
             }

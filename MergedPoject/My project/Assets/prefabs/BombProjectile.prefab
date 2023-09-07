@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   rigidbody2d: {fileID: 6998973320206766220}
   spriteRenderer: {fileID: 940655634945396233}
   trailRenderer: {fileID: 1056730777845707519}
-  g: 110
+  g: 170
   playerColor: {r: 0, g: 1, b: 0.51527715, a: 1}
   invaderColor: {r: 0.99215686, g: 0.49019608, b: 0, a: 1}
   playerTrail: {fileID: 2100000, guid: 43a83dbcd04b53a40beef3ea530900d9, type: 2}

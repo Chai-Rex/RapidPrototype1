@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 2646773082241926276}
-  healing: 100
+  healing: 66
 --- !u!212 &8213125252120843630
 SpriteRenderer:
   m_ObjectHideFlags: 0

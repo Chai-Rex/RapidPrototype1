@@ -834,7 +834,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRotationSpeed: 220
-  lerpDuration: 0.5
+  lerpDuration: 0.6
+  baseDuration: 0.2
 --- !u!1 &152863932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,7 +1895,7 @@ GameObject:
   - component: {fileID: 399686963}
   - component: {fileID: 399686961}
   - component: {fileID: 399686962}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Survayor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2028,6 +2029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Drop: {fileID: 5635701975518414384, guid: 919f5d855b5b08946b579841db7288e9, type: 3}
   DropParent: {fileID: 570541314}
+  pointsAwarded: 1000
 --- !u!1 &400309455
 GameObject:
   m_ObjectHideFlags: 0
@@ -7076,7 +7078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5ad8626692c1a419f839d6ca76e667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 300
+  maxHealth: 200
   rigidbody2d: {fileID: 1337307859}
 --- !u!58 &1337307856
 CircleCollider2D:
@@ -7405,7 +7407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1376032831}
   - component: {fileID: 1376032832}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Brian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7583,9 +7585,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handlerID: 4
-  WaitToStartTime: 5
+  WaitToStartTime: 20
   maxBombers: 3
-  offsetHeightBy: 1
+  offsetHeightBy: 2
   AmountOfBombs: 20
   bomberPrefab: {fileID: 333678403576222654, guid: f38459488999b5147bea856354c3821d, type: 3}
   timeBetweenSpawns: 10
@@ -8936,7 +8938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1798014748}
   - component: {fileID: 1798014747}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SurvayorHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8960,7 +8962,7 @@ MonoBehaviour:
   rotationSpeed: 10
   targetHieight: 15
   amountOfDegreesToSurvay: 360
-  waitingToStartTimer: 20
+  waitingToStartTimer: 30
   Survayor: {fileID: 399686959}
 --- !u!4 &1798014748
 Transform:

@@ -51,7 +51,7 @@ MonoBehaviour:
   rigidbody2d: {fileID: 5301004269772272535}
   spriteRenderer: {fileID: 3376469278295803415}
   trailRenderer: {fileID: -4167960037374213549}
-  g: 150
+  g: 220
   playerColor: {r: 0, g: 0.8937981, b: 1, a: 1}
   invaderColor: {r: 1, g: 0, b: 0, a: 1}
   playerTrail: {fileID: 2100000, guid: 43a83dbcd04b53a40beef3ea530900d9, type: 2}

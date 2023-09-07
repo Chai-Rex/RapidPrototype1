@@ -57,7 +57,7 @@ public class BombProjectile : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player") ||
             collision.gameObject.layer == LayerMask.NameToLayer("Ball"))
         {
-
+            g += 60;
             SoundManager.Instance.SoundProjectileBounce(this.transform.position);
             ScoreManager.Instance.IncrementProjectilesBounced();
 
