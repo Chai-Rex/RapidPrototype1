@@ -49,20 +49,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 6998973320206766220}
+  collider2d: {fileID: 6673118076864839534}
   spriteRenderer: {fileID: 940655634945396233}
   trailRenderer: {fileID: 1056730777845707519}
   g: 170
+  explodeTime: 0.5
+  damageToPlanet: 5
+  radiusExplosion: 0.25
   playerColor: {r: 0, g: 1, b: 0.51527715, a: 1}
   invaderColor: {r: 0.99215686, g: 0.49019608, b: 0, a: 1}
   playerTrail: {fileID: 2100000, guid: 43a83dbcd04b53a40beef3ea530900d9, type: 2}
   invaderTrail: {fileID: 2100000, guid: 669a501a99a2782498e7aa18b17fdca9, type: 2}
-  InvaderHitEffect: {fileID: 8706730362756121958, guid: 50de4127fb3d3214195058f2855bc353, type: 3}
-  planetHitEffect: {fileID: 3287935543775063484, guid: a7554ff98eb80be46aa6f3cf7550c9bb, type: 3}
-  collider2d: {fileID: 6673118076864839534}
-  damage: 3
-  radiusExplosion: 0.4
   explosionEffect: {fileID: 8706730362756121958, guid: dec308c145ae36f47baa156ecd02604a, type: 3}
-  explodeTime: 1
 --- !u!212 &940655634945396233
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -229,7 +227,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.44684893
+        value: 0.72727203
         inSlope: 0.14047068
         outSlope: 0.14047068
         tangentMode: 0
@@ -237,7 +235,7 @@ TrailRenderer:
         inWeight: 0
         outWeight: 0.6388904
       - serializedVersion: 3
-        time: 0.5291785
+        time: 0.38339603
         value: 0
         inSlope: -0.49592224
         outSlope: -0.49592224

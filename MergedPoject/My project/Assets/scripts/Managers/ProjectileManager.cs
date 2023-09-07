@@ -14,11 +14,13 @@ public class ProjectileManager : MonoBehaviour {
     [SerializeField] private float tickrate = 0.25f;
     [SerializeField] private int numberOfLanderHandlers = 4;
     [SerializeField] private int numberOfBomberHandlers = 1;
+    [SerializeField] private int numberOfSniperHandlers = 1;
 
     [Header("Must add up to max")]
     [SerializeField] private int max = 100;
-    [SerializeField] private int landerProbability = 60;
-    [SerializeField] private int bomberProbability = 40;
+    [SerializeField] private int landerProbability = 50;
+    [SerializeField] private int bomberProbability = 25;
+    [SerializeField] private int sniperProbability = 25;
 
     public int selectedHandler { get; private set; }
 
@@ -28,6 +30,12 @@ public class ProjectileManager : MonoBehaviour {
         Instance = this;
     }
     private void Start() {
+        selectedHandler = -1;
+        GameStateManager.Instance.OnStateChanged += GameStateManager_OnStateChanged;
+    }
+
+    private void GameStateManager_OnStateChanged(object sender, System.EventArgs e) {
+        if (!GameStateManager.Instance.IsGamePlaying()) { return; }
         SelectNewHandler();
     }
 
@@ -44,7 +52,7 @@ public class ProjectileManager : MonoBehaviour {
 
 
     public void SelectNewHandler() {
-        int selection = Random.Range(0, max);
+        int selection = Random.Range(1, max + 1);
 
         if (selection <= landerProbability) {
             selectedHandler = Random.Range(0, numberOfLanderHandlers);
@@ -54,7 +62,10 @@ public class ProjectileManager : MonoBehaviour {
             selectedHandler = numberOfLanderHandlers + numberOfBomberHandlers - 1;
             return;
         }
-
+        if (selection > bomberProbability + landerProbability && selection <= bomberProbability + landerProbability + sniperProbability) {
+            selectedHandler = numberOfLanderHandlers + numberOfBomberHandlers + numberOfSniperHandlers - 1;
+            return;
+        }
 
     }
 

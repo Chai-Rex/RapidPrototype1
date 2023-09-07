@@ -6,6 +6,10 @@ public class MainMenuUI : MonoBehaviour {
 
     [SerializeField] private Button startButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button manuelButton;
+
+    [SerializeField] private GameObject infoUI;
+
     private void Awake() {
         startButton.Select();
         //lambda
@@ -17,6 +21,12 @@ public class MainMenuUI : MonoBehaviour {
         quitButton.onClick.AddListener(() => {
             //click
             Application.Quit();
+        });
+
+        manuelButton.onClick.AddListener(() => {
+            //click
+            infoUI.SetActive(true);
+            this.gameObject.SetActive(false);
         });
 
         Time.timeScale = 1f;

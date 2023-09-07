@@ -7,14 +7,16 @@ public class Projectile : MonoBehaviour {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private float g = 1f;
+    [SerializeField] private int damageToPlanet = 1;
     [SerializeField] private Color playerColor;
     [SerializeField] private Color invaderColor;
     [SerializeField] private Material playerTrail;
     [SerializeField] private Material invaderTrail;
     [SerializeField] private GameObject InvaderHitEffect = null;
     [SerializeField] private GameObject planetHitEffect = null;
+
     private void Start() {
-        SoundManager.Instance.SoundInvaderShoot(this.transform.position);
+        //SoundManager.Instance.SoundInvaderShoot(this.transform.position);
         rigidbody2d.AddForce(new Vector2(
             Dome.Instance.transform.position.x - this.transform.position.x,
             Dome.Instance.transform.position.y - this.transform.position.y
@@ -61,11 +63,9 @@ public class Projectile : MonoBehaviour {
                     this.transform.position.y - collision.transform.position.y
                     ).normalized * g);
             } else {
-                if (planetHitEffect != null) {
-                    Instantiate(planetHitEffect, transform.position, transform.rotation, null);
-                }
+                Instantiate(planetHitEffect, transform.position, transform.rotation, null);
                 SoundManager.Instance.SoundProjectileDamageHP(this.transform.position);
-                Dome.Instance.LowerHeathBy(1);
+                Dome.Instance.LowerHeathBy(damageToPlanet);
                 Destroy(this.gameObject);
             }
             return;
@@ -87,9 +87,7 @@ public class Projectile : MonoBehaviour {
 
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Invader")) {
-            if (InvaderHitEffect != null) {
-                Instantiate(InvaderHitEffect, transform.position, transform.rotation, null);
-            }
+            Instantiate(InvaderHitEffect, transform.position, transform.rotation, null);
             Destroy(this.gameObject);
         }
 

@@ -16,7 +16,7 @@ public class GameUI : MonoBehaviour {
 
 
     private void Start() {
-        scoreText.text = "SCORE " + ScoreManager.Instance.currentScore;
+        scoreText.text =  "" + ScoreManager.Instance.currentScore;
         livesText.text = "LIVES " + Dome.Instance.GetLives();
         powerText.text = "POWER " + Player.Instance.G / 100;
         powerSlider.value = Player.Instance.GetNormalizedPower();
@@ -26,10 +26,14 @@ public class GameUI : MonoBehaviour {
         Dome.Instance.OnLivesChange += Dome_OnLivesChange;
         GameInput.Instance.OnAction += GameInput_OnAction;
         GameStateManager.Instance.OnStateChanged += GameStateManager_OnStateChanged;
-        GameInput.Instance.OnIncrease += GameInput_OnIncrease; ;
-        GameInput.Instance.OnDecrease += GameInput_OnDecrease; ;
+        Player.Instance.OnGChanged += Player_OnGChanged; ; 
 
         pressSpaceText.gameObject.SetActive(false);
+    }
+
+    private void Player_OnGChanged(object sender, System.EventArgs e) {
+        powerText.text = "POWER " + Player.Instance.GetNormalizedPower() * 100;
+        powerSlider.value = Player.Instance.GetNormalizedPower();
     }
 
     private void GameStateManager_OnStateChanged(object sender, System.EventArgs e) {
@@ -45,27 +49,12 @@ public class GameUI : MonoBehaviour {
     }
 
     private void ScoreManager_OnScoreChange(object sender, System.EventArgs e) {
-        scoreText.text = "SCORE " + ScoreManager.Instance.currentScore;
+        scoreText.text = "" + ScoreManager.Instance.currentScore;
 
     }
 
     private void Dome_OnLivesChange(object sender, System.EventArgs e) {
         livesText.text = "LIVES " + Dome.Instance.GetLives();
         healthSlider.value = Dome.Instance.GetNormalizedLives();
-    }
-
-    private void GameInput_OnIncrease(object sender, System.EventArgs e) {
-        if (Player.Instance.G <= Player.Instance.maxG) {
-            powerText.text = "POWER " + Player.Instance.G / 100;
-        }
-        powerSlider.value = Player.Instance.GetNormalizedPower();
-
-    }
-    private void GameInput_OnDecrease(object sender, System.EventArgs e) {
-        if (Player.Instance.G >= Player.Instance.minG) {
-            powerText.text = "POWER " + Player.Instance.G / 100;
-        }
-
-        powerSlider.value = Player.Instance.GetNormalizedPower();
     }
 }

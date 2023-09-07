@@ -76,12 +76,15 @@ public class LanderHandler : MonoBehaviour {
     }
 
     private void Start() {
+        GameStateManager.Instance.OnStateChanged += GameStateManager_OnStateChanged;
+        ProjectileManager.Instance.OnProjectileTick += ProjectileManager_OnProjectileTick;
+
+    }
+
+    private void GameStateManager_OnStateChanged(object sender, System.EventArgs e) {
+        if (!GameStateManager.Instance.IsGameCountdownToStart()) { return; }
         increaseBaseSpeedPercent -= incrementSpeedBy;
         StartLanders();
-        //LanderInvader.onLanderKilled += Invader_OnLanderKilled;
-        //InvokeRepeating(nameof(FireMissle), missileRate, missileRate);
-
-        ProjectileManager.Instance.OnProjectileTick += ProjectileManager_OnProjectileTick;
         RandomizeFire();
     }
 
@@ -139,26 +142,27 @@ public class LanderHandler : MonoBehaviour {
 
     private void Update() {
 
-        if (GameStateManager.Instance.IsGameWaitingToStart()) { return; }
+        if (!GameStateManager.Instance.IsGamePlaying() && !GameStateManager.Instance.IsGameCountdownToStart()) { return; }
 
-        // move below viewport
-
-        if (currentMoveIntoFrameAmount >= 0) {
+        if (currentMoveIntoFrameAmount > 0) {
             float moveAmountThisFrame = moveIntoFrameSpeed * Time.deltaTime;
             currentMoveIntoFrameAmount -= moveAmountThisFrame;
             foreach (GameObject invader in InvaderGrid) {
+                if (!invader) { continue; }
                 invader.transform.localPosition -= new Vector3(0, moveAmountThisFrame, 0);
             }
 
             if (currentMoveIntoFrameAmount < 0) {
                 foreach (GameObject invader in InvaderGrid) {
+                    if (!invader) { continue; }
                     invader.transform.localPosition -= new Vector3(0, currentMoveIntoFrameAmount, 0);
                 }
+                if (GameStateManager.Instance.IsGameCountdownToStart())
+                    GameStateManager.Instance.EndCountdownToStart();
             }
-            return;
         }
 
-        if (GameStateManager.Instance.IsGameCountdownToStart()) { GameStateManager.Instance.EndCountdownToStart(); }
+        if (GameStateManager.Instance.IsGameCountdownToStart()) { return; }
 
         //move up
         if (isMovingUp) {

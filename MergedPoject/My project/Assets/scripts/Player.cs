@@ -6,10 +6,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Player : MonoBehaviour {
 
     public static Player Instance { get; private set; }
+
+    public event EventHandler OnGChanged;
 
     [SerializeField] public float G = 2000f;
     [SerializeField] public float maxG = 2200f;
@@ -67,11 +70,13 @@ public class Player : MonoBehaviour {
     private void GameInput_OnIncrease(object sender, System.EventArgs e) {
         if (G < maxG) {
             G += incrementG;
+            OnGChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     private void GameInput_OnDecrease(object sender, System.EventArgs e) {
         if (G > minG) {
             G -= incrementG;
+            OnGChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     public float GetNormalizedPower() {

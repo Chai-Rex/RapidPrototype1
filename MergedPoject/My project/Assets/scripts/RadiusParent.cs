@@ -47,6 +47,8 @@ public class RadiusParent : MonoBehaviour {
 
     private void Update() {
 
+        if (!GameStateManager.Instance.IsGamePlaying() && !GameStateManager.Instance.IsGameCountdownToStart()) { return; }
+
         if ((isMoveLeft && isMoveRight) || (!isMoveLeft && !isMoveRight)) {
             if (elapsedTime <= baseDuration) {
                 elapsedTime = baseDuration;

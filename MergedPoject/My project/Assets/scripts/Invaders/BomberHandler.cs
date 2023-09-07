@@ -48,6 +48,7 @@ public class BomberHandler : MonoBehaviour {
     }
 
     private void Update() {
+        if (!GameStateManager.Instance.IsGamePlaying()) { return; }
 
         switch (state) {
             case State.WaitingToStart:

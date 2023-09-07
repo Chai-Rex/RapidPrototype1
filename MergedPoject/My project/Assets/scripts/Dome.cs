@@ -26,8 +26,9 @@ public class Dome : MonoBehaviour {
     }
 
     private void Start() {
-       GravityManager.attractors.Add(rigidbody2d);
+        GravityManager.attractors.Add(rigidbody2d);
         remainingHealth = maxHealth;
+        OnLivesChange?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnDestroy() {

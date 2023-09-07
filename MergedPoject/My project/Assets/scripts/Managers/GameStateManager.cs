@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviour {
 
     private enum State {
         WaitingToStart,
+        IntroSequence,
         CountdownToStart,
         GamePlaying,
         GameOver,
@@ -41,10 +42,12 @@ public class GameStateManager : MonoBehaviour {
             case State.WaitingToStart:
                 waitingToStartTimer -= Time.deltaTime;
                 if (waitingToStartTimer < 0f) {
-                    state = State.CountdownToStart;
+                    state = State.IntroSequence;
 
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
+                break;
+            case State.IntroSequence:
 
                 break;
             case State.CountdownToStart:
@@ -72,12 +75,20 @@ public class GameStateManager : MonoBehaviour {
         return state == State.WaitingToStart;
     }
 
+    public bool IsGameIntroSequence() {
+        return state == State.IntroSequence;
+    }
+    public void EndOfIntroSequence() {
+        state = State.CountdownToStart;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
+    }
     public bool IsGameCountdownToStart() {
         return state == State.CountdownToStart;
     }
     public void EndCountdownToStart() {
         state = State.GamePlaying;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
+
     }
 
     public bool IsGamePlaying() {

@@ -14,7 +14,9 @@ public class CameraManager : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
-
+        updateCameraBounds();
+    }
+    public void updateCameraBounds() {
         // set world bounds
         bottomLeftCorner = Camera.main.ViewportToWorldPoint(Vector3.zero);
         bottomRightCorner = Camera.main.ViewportToWorldPoint(Vector3.right);
@@ -23,6 +25,7 @@ public class CameraManager : MonoBehaviour {
 
         // set radius
         viewportRadius = HypotenuseLength(Camera.main.orthographicSize, Camera.main.orthographicSize);
+
     }
 
     float HypotenuseLength(float sideALength, float sideBLength) {
